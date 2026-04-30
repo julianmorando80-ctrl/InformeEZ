@@ -137,11 +137,17 @@
       border-bottom: 1.5px solid var(--acento);
       display: inline-block;
     }
+    .header-direccion {
+      font-size: 11px;
+      color: rgba(255,255,255,0.65);
+      margin-top: 3px;
+      margin-bottom: 2px;
+      letter-spacing: .2px;
+    }
     .header-contacto {
       font-size: 12px;
       color: rgba(255,255,255,0.75);
       margin-bottom: 14px;
-      margin-top: 3px;
     }
     .header-contacto .sep-contacto {
       color: var(--acento);
@@ -602,6 +608,7 @@
     </div>
     <div class="header-info">
       <div class="header-estudio-nombre" id="hdr-nombre"></div>
+      <div class="header-direccion" id="hdr-direccion"></div>
       <div class="header-contacto" id="hdr-contacto"></div>
       <div class="header-badge-diag">Diagnóstico Mensual</div>
       <div class="header-meta-row">
@@ -803,10 +810,11 @@
 <script>
 // ── CONFIGURACIÓN DEL ESTUDIO ─────────────────────────
 const ESTUDIO = {
-  nombre:   "Estudio Contable & Asociados",
-  telefono: "(011) 4000-0000",
-  email:    "info@estudio.com.ar",
-  logo:     "logoez.png"
+  nombre:    "Estudio Zaracho & Asociados",
+  direccion: "Mariano Moreno 2130",
+  telefono:  "+54 9 3794 35-3631",
+  email:     "info@estudiozaracho.com.ar",
+  logo:      "logoez.png"
 };
 // ─────────────────────────────────────────────────────
 
@@ -822,13 +830,15 @@ let clientes = [];
 
 /* ── Init ──────────────────────────────────────────── */
 (function init() {
-  document.getElementById('hdr-nombre').textContent = ESTUDIO.nombre;
+  document.getElementById('hdr-nombre').textContent    = ESTUDIO.nombre;
+  document.getElementById('hdr-direccion').textContent = ESTUDIO.direccion;
   document.getElementById('hdr-contacto').innerHTML =
     ESTUDIO.telefono +
     '<span class="sep-contacto">·</span>' +
     ESTUDIO.email;
   document.getElementById('ftr-nombre').textContent   = ESTUDIO.nombre;
-  document.getElementById('ftr-contacto').textContent = ESTUDIO.telefono + ' · ' + ESTUDIO.email;
+  document.getElementById('ftr-contacto').textContent =
+    ESTUDIO.direccion + ' · ' + ESTUDIO.telefono + ' · ' + ESTUDIO.email;
 
   const logo = document.getElementById('header-logo');
   logo.src = ESTUDIO.logo;
