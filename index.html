@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diagnóstico Mensual — Estudio Contable</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <style>
+    /* ── Variables ─────────────────────────────────── */
+    :root {
+      --azul-oscuro:    #0D3B6E;
+      --azul-medio:     #1565C0;
+      --celeste-suave:  #E3F2FD;
+      --rojo-medio:     #C62828;
+      --rojo-suave:     #FFEBEE;
+      --verde-medio:    #2E7D32;
+      --verde-suave:    #E8F5E9;
+      --amarillo:       #FFF8E1;
+      --amarillo-borde: #F59E0B;
+      --gris-texto:     #6B7280;
+      --gris-borde:     #E0E0E0;
+      --texto:          #1A1A2E;
+      --acento:         #ff5757;
+    }
+
+    /* ── Reset ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Lato', sans-serif;
+      color: var(--texto);
+      background: #eef2f7;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    /* ── Panel de control ──────────────────────────── */
+    #panel-control {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: white;
+      border-bottom: 3px solid var(--azul-medio);
+      padding: 10px 28px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .panel-marca {
+      font-family: 'Playfair Display', serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--azul-oscuro);
+      margin-right: 4px;
+      white-space: nowrap;
+    }
+    .panel-sep { width: 1px; height: 28px; background: var(--gris-borde); }
+    #file-input { display: none; }
+    .btn-panel {
+      font-family: 'Lato', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 7px 18px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: opacity .15s, transform .1s;
+      white-space: nowrap;
+    }
+    .btn-panel:active { transform: scale(.97); }
+    #btn-cargar  { background: var(--azul-medio); color: white; }
+    #btn-pdf     { background: var(--azul-oscuro); color: white; }
+    #btn-cargar:hover { opacity: .88; }
+    #btn-pdf:hover    { opacity: .88; }
+    #btn-pdf:disabled, #select-cliente:disabled { opacity: .38; cursor: not-allowed; }
+    #select-cliente {
+      font-family: 'Lato', sans-serif;
+      font-size: 13px;
+      padding: 7px 12px;
+      border: 1.5px solid var(--gris-borde);
+      border-radius: 5px;
+      min-width: 260px;
+      max-width: 360px;
+      color: var(--texto);
+      background: white;
+      cursor: pointer;
+    }
+    #panel-status {
+      margin-left: auto;
+      font-size: 12px;
+      color: var(--gris-texto);
+      white-space: nowrap;
+    }
+
+    /* ── Documento ─────────────────────────────────── */
+    #documento {
+      max-width: 920px;
+      margin: 28px auto 60px;
+      background: white;
+      box-shadow: 0 6px 32px rgba(0,0,0,0.13);
+    }
+
+    /* ── Encabezado ────────────────────────────────── */
+    .doc-header {
+      background: var(--azul-oscuro);
+      color: white;
+      padding: 28px 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+    }
+    .header-logo-wrap { flex-shrink: 0; }
+    #header-logo { height: 55px; width: auto; max-width: 200px; object-fit: contain; display: block; }
+    #logo-placeholder {
+      width: 160px; height: 55px;
+      border: 2px dashed rgba(255,255,255,0.35);
+      border-radius: 4px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: rgba(255,255,255,0.45);
+      text-align: center;
+      line-height: 1.3;
+      padding: 6px;
+    }
+    .header-info { text-align: right; }
+    .header-estudio-nombre {
+      font-family: 'Playfair Display', serif;
+      font-size: 21px;
+      font-weight: 700;
+      letter-spacing: .3px;
+      margin-bottom: 5px;
+      padding-bottom: 5px;
+      border-bottom: 1.5px solid var(--acento);
+      display: inline-block;
+    }
+    .header-contacto {
+      font-size: 12px;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 14px;
+      margin-top: 3px;
+    }
+    .header-contacto .sep-contacto {
+      color: var(--acento);
+      font-weight: 700;
+      margin: 0 5px;
+    }
+    .header-badge-diag {
+      display: inline-block;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.28);
+      padding: 4px 14px;
+      border-radius: 3px;
+      font-size: 11.5px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .header-meta-row {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.8);
+    }
+    .ce-header {
+      background: rgba(255,255,255,0.14);
+      border: 1px dashed rgba(255,255,255,0.4);
+      border-radius: 3px;
+      padding: 3px 9px;
+      color: white;
+      font-family: 'Lato', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      min-width: 78px;
+      text-align: center;
+      outline: none;
+    }
+    .ce-header:focus { background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.75); }
+    .ce-header:empty::before {
+      content: attr(data-ph);
+      color: rgba(255,255,255,0.38);
+      font-weight: 400;
+    }
+    .header-meta-pipe { color: rgba(255,255,255,0.3); }
+
+    /* ── Barra cliente ─────────────────────────────── */
+    .doc-cliente-bar {
+      background: var(--celeste-suave);
+      border-bottom: 2.5px solid var(--acento);
+      padding: 13px 36px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 0;
+      align-items: center;
+    }
+    .chip { display: flex; flex-direction: column; padding: 0 16px 0 0; }
+    .chip:first-child { padding-left: 0; }
+    .chip-lbl {
+      font-size: 9.5px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--gris-texto);
+      font-weight: 700;
+      margin-bottom: 1px;
+    }
+    .chip-val {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--texto);
+    }
+    .chip-sep { width: 1px; height: 32px; background: var(--azul-medio); opacity: .25; margin-right: 16px; }
+
+    /* ── Cuerpo ────────────────────────────────────── */
+    .doc-body { padding: 36px 36px 28px; }
+
+    /* ── Sección ───────────────────────────────────── */
+    .seccion { margin-bottom: 36px; }
+    .seccion-titulo {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 14px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid var(--acento);
+    }
+    .seccion-icono { display: none; }
+    .seccion-titulo h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 18.5px;
+      font-weight: 600;
+      color: var(--azul-oscuro);
+      letter-spacing: .2px;
+    }
+
+    /* ── Tabla impositiva ──────────────────────────── */
+    .tabla-imp {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+    }
+    .tabla-imp thead tr { background: var(--azul-oscuro); color: white; }
+    .tabla-imp thead th {
+      padding: 9px 13px;
+      text-align: left;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+    }
+    .tabla-imp tbody tr:nth-child(even)  { background: var(--celeste-suave); }
+    .tabla-imp tbody tr:nth-child(odd)   { background: white; }
+    .tabla-imp tbody td {
+      padding: 9px 13px;
+      border-bottom: 1px solid var(--gris-borde);
+      vertical-align: middle;
+    }
+    .tabla-imp tbody tr:last-child td { border-bottom: none; }
+    .imp-nombre { font-weight: 700; color: var(--texto); }
+
+    /* ── Select de estado ─────────────────────────── */
+    .sel-estado {
+      font-family: 'Lato', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 14px;
+      border: none;
+      cursor: pointer;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      text-align: center;
+      min-width: 104px;
+    }
+    .sel-estado.presentado   { background: var(--verde-suave);  color: var(--verde-medio); }
+    .sel-estado.en-curso     { background: var(--celeste-suave); color: var(--azul-medio); }
+    .sel-estado.pendiente    { background: var(--amarillo);      color: #92400e; }
+    .sel-estado.sin-presentar{ background: var(--rojo-suave);   color: var(--rojo-medio); }
+
+    /* badge visible solo en impresión */
+    .badge-estado {
+      display: none;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 14px;
+      min-width: 104px;
+      text-align: center;
+    }
+    .badge-estado.presentado   { background: var(--verde-suave);  color: var(--verde-medio); }
+    .badge-estado.en-curso     { background: var(--celeste-suave); color: var(--azul-medio); }
+    .badge-estado.pendiente    { background: var(--amarillo);      color: #92400e; }
+    .badge-estado.sin-presentar{ background: var(--rojo-suave);   color: var(--rojo-medio); }
+
+    /* ── Campos editables (pantalla) ─────────────── */
+    [contenteditable] { outline: none; }
+
+    .ce-excel {
+      display: inline-block;
+      padding: 2px 4px;
+      border-bottom: 1.5px dashed var(--azul-medio);
+      min-width: 50px;
+      border-radius: 2px 2px 0 0;
+    }
+    .ce-excel:focus { background: rgba(21,101,192,.06); border-bottom-color: var(--azul-oscuro); }
+
+    .ce-manual {
+      display: inline-block;
+      padding: 2px 4px;
+      border-bottom: 1.5px dashed var(--rojo-medio);
+      min-width: 70px;
+      border-radius: 2px 2px 0 0;
+    }
+    .ce-manual:focus { background: rgba(198,40,40,.04); border-bottom-color: var(--rojo-medio); }
+    .ce-manual:empty::before {
+      content: attr(data-ph);
+      color: #bdbdbd;
+      font-style: italic;
+      font-size: .92em;
+      pointer-events: none;
+    }
+
+    /* ── Grid previsional ────────────────────────── */
+    .grid-prev {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .tarj-prev {
+      border: 1px solid var(--gris-borde);
+      border-left: 4px solid var(--azul-medio);
+      border-radius: 5px;
+      padding: 13px 16px;
+      background: white;
+    }
+    .tarj-lbl {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .9px;
+      color: var(--gris-texto);
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+    .tarj-val { font-size: 15px; font-weight: 700; color: var(--texto); }
+
+    /* ── Grid vencimientos ───────────────────────── */
+    .grid-venc { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; }
+    .tarj-venc {
+      border-radius: 6px;
+      padding: 14px 16px;
+      border-width: 1.5px;
+      border-style: solid;
+    }
+    .tarj-venc.urgente  { background: var(--rojo-suave);    border-color: var(--rojo-medio); }
+    .tarj-venc.proximo  { background: var(--amarillo);      border-color: var(--amarillo-borde); }
+    .tarj-venc.ok       { background: var(--celeste-suave); border-color: var(--azul-medio); }
+    .venc-nombre { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .7px; margin-bottom: 5px; }
+    .venc-fecha  { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 700; }
+    .venc-dias   { font-size: 11px; margin-top: 3px; opacity: .8; }
+    .urgente  .venc-nombre, .urgente  .venc-fecha, .urgente  .venc-dias  { color: var(--rojo-medio); }
+    .proximo  .venc-nombre, .proximo  .venc-fecha, .proximo  .venc-dias  { color: #92400e; }
+    .ok       .venc-nombre, .ok       .venc-fecha, .ok       .venc-dias  { color: var(--azul-medio); }
+
+    /* ── Cuenta corriente ────────────────────────── */
+    .grid-cuenta { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .tarj-cuenta {
+      border-radius: 7px;
+      padding: 22px 26px;
+      border: 1.5px solid var(--gris-borde);
+      background: white;
+    }
+    .tarj-cuenta.deuda-bg { background: var(--rojo-suave);  border-color: var(--rojo-medio); }
+    .tarj-cuenta.favor-bg { background: var(--verde-suave); border-color: var(--verde-medio); }
+    .cuenta-lbl {
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--gris-texto);
+      font-weight: 700;
+      margin-bottom: 9px;
+    }
+    .cuenta-monto {
+      font-family: 'Playfair Display', serif;
+      font-size: 29px;
+      font-weight: 700;
+    }
+    .cuenta-monto.deuda  { color: var(--rojo-medio); }
+    .cuenta-monto.favor  { color: var(--verde-medio); }
+    .cuenta-monto.neutro { color: var(--gris-texto); }
+    .cuenta-desc { font-size: 11.5px; margin-top: 5px; color: var(--gris-texto); }
+
+    /* ── Observaciones ───────────────────────────── */
+    .caja-obs {
+      background: var(--amarillo);
+      border-left: 5px solid var(--acento);
+      border-radius: 0 5px 5px 0;
+      padding: 18px 22px;
+      min-height: 110px;
+      font-size: 13px;
+      line-height: 1.65;
+      width: 100%;
+      white-space: pre-wrap;
+    }
+    .caja-obs:empty::before {
+      content: attr(data-ph);
+      color: #bdbdbd;
+      font-style: italic;
+      pointer-events: none;
+    }
+
+    /* ── Pie de página ───────────────────────────── */
+    .doc-footer {
+      border-top: 1px solid var(--gris-borde);
+      padding: 15px 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: var(--gris-texto);
+      background: #fafbfc;
+    }
+    .footer-nombre { font-weight: 700; color: var(--texto); margin-bottom: 2px; }
+    .footer-der { text-align: right; }
+    .footer-conf { font-weight: 600; color: var(--texto); margin-bottom: 2px; }
+
+    /* ── Mensaje de bienvenida ───────────────────── */
+    #bienvenida {
+      text-align: center;
+      padding: 56px 32px;
+      color: var(--gris-texto);
+    }
+    #bienvenida h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      color: var(--azul-oscuro);
+      margin-bottom: 10px;
+    }
+    #bienvenida p { font-size: 13px; max-width: 420px; margin: 0 auto; }
+    #contenido-doc { display: none; }
+
+    /* ── Print ───────────────────────────────────── */
+    @media print {
+      @page { size: A4; margin: 8mm 10mm; }
+
+      /* Escala global: zoom en Chrome/Edge */
+      html { zoom: 0.78; }
+
+      /* Fallback transform para Firefox (no soporta zoom en print) */
+      @supports not (zoom: 0.78) {
+        #documento {
+          transform: scale(0.78);
+          transform-origin: top left;
+          width: 128.2%;
+        }
+      }
+
+      body {
+        background: white;
+        font-size: 9px;
+        line-height: 1.3;
+      }
+
+      #panel-control { display: none !important; }
+
+      #documento {
+        max-width: 100%;
+        margin: 0;
+        box-shadow: none;
+      }
+
+      #bienvenida    { display: none !important; }
+      #contenido-doc { display: block !important; }
+
+      /* ── Encabezado compacto ── */
+      .doc-header { padding: 10px 18px !important; }
+      #header-logo { height: 42px !important; width: auto !important; max-width: 160px !important; }
+      #logo-placeholder { height: 42px !important; max-width: 160px !important; }
+      .header-estudio-nombre { font-size: 12px !important; margin-bottom: 2px !important; padding-bottom: 3px !important; border-bottom-color: var(--acento) !important; }
+      .header-contacto { font-size: 8px !important; margin-bottom: 6px !important; }
+      .header-badge-diag { font-size: 8.5px !important; padding: 2px 7px !important; margin-bottom: 4px !important; }
+      .header-meta-row { font-size: 8.5px !important; gap: 6px !important; }
+      .ce-header { font-size: 8.5px !important; }
+      .sep-contacto { color: var(--acento) !important; }
+
+      /* ── Barra cliente ── */
+      .doc-cliente-bar { padding: 5px 18px !important; }
+      .chip-lbl { font-size: 7px !important; }
+      .chip-val { font-size: 9px !important; }
+      .chip { padding: 0 10px 0 0 !important; }
+      .chip-sep { height: 20px !important; margin-right: 10px !important; }
+
+      /* ── Cuerpo y secciones ── */
+      .doc-body { padding: 8px 18px 4px !important; }
+      .seccion { margin-bottom: 5px !important; page-break-inside: avoid !important; }
+      .seccion-titulo { margin-bottom: 3px !important; padding-bottom: 2px !important; gap: 5px !important; border-bottom-color: var(--acento) !important; }
+      .seccion-titulo h2 { font-size: 11.5px !important; }
+      .doc-cliente-bar { border-bottom-color: var(--acento) !important; }
+      .caja-obs { border-left-color: var(--acento) !important; }
+
+      /* ── Tabla impositiva ── */
+      .tabla-imp { font-size: 8px !important; }
+      .tabla-imp thead th { padding: 4px 9px !important; font-size: 7.5px !important; }
+      .tabla-imp tbody td { padding: 3px 9px !important; }
+      .tr-vacia-print { display: none !important; }
+
+      /* ── Previsional ── */
+      .grid-prev { gap: 5px !important; }
+      .tarj-prev { padding: 5px 10px !important; }
+      .tarj-lbl { font-size: 7.5px !important; margin-bottom: 1px !important; }
+      .tarj-val { font-size: 10px !important; }
+
+      /* ── Vencimientos — máx 3 columnas, altura compacta ── */
+      .grid-venc { grid-template-columns: repeat(3, 1fr) !important; gap: 5px !important; }
+      .tarj-venc { padding: 5px 10px !important; }
+      .venc-nombre { font-size: 7.5px !important; margin-bottom: 2px !important; }
+      .venc-fecha  { font-size: 11px !important; }
+      .venc-dias   { font-size: 7.5px !important; margin-top: 1px !important; }
+
+      /* ── Cuenta corriente — una sola fila ── */
+      .grid-cuenta { grid-template-columns: 1fr 1fr !important; gap: 8px !important; }
+      .tarj-cuenta { padding: 8px 12px !important; }
+      .cuenta-lbl  { font-size: 7.5px !important; margin-bottom: 3px !important; }
+      .cuenta-monto { font-size: 15px !important; }
+      .cuenta-desc  { font-size: 7.5px !important; margin-top: 2px !important; }
+
+      /* ── Observaciones — máx 3 líneas ── */
+      .caja-obs {
+        min-height: 0 !important;
+        max-height: 3.3em !important;
+        overflow: hidden !important;
+        padding: 5px 12px !important;
+        font-size: 8px !important;
+        line-height: 1.1em !important;
+        border-left-width: 3px !important;
+      }
+
+      /* ── Pie de página ── */
+      .doc-footer { padding: 5px 18px !important; font-size: 7.5px !important; }
+      .footer-nombre { font-size: 8px !important; }
+
+      /* ── Campos editables: sin bordes ── */
+      .ce-excel, .ce-manual {
+        border-bottom: none !important;
+        background: none !important;
+        padding: 0 !important;
+      }
+      .ce-header {
+        border: none !important;
+        background: transparent !important;
+        padding: 0 !important;
+      }
+      .ce-excel:empty::before, .ce-manual:empty::before,
+      .ce-header:empty::before, .caja-obs:empty::before { display: none; }
+
+      /* ── Badges de estado ── */
+      .sel-estado { display: none !important; }
+      .badge-estado {
+        display: inline-block !important;
+        font-size: 7.5px !important;
+        padding: 2px 6px !important;
+        min-width: 0 !important;
+      }
+
+      /* ── Colores de fondo ── */
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+      /* ── Saltos de página ── */
+      .doc-header    { page-break-after: avoid; }
+      .doc-cliente-bar { page-break-after: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ PANEL DE CONTROL ══════════════════════════════ -->
+<div id="panel-control">
+  <span class="panel-marca">EZ · Diagnóstico</span>
+  <div class="panel-sep"></div>
+  <input type="file" id="file-input" accept=".xlsx">
+  <button class="btn-panel" id="btn-cargar" onclick="document.getElementById('file-input').click()">Cargar Excel</button>
+  <select id="select-cliente" disabled>
+    <option value="">— Seleccioná un cliente —</option>
+  </select>
+  <button class="btn-panel" id="btn-pdf" disabled onclick="window.print()">Generar PDF</button>
+  <span id="panel-status"></span>
+</div>
+
+<!-- ═══ DOCUMENTO ════════════════════════════════════ -->
+<div id="documento">
+
+  <!-- ENCABEZADO -->
+  <div id="contenido-doc">
+  <div class="doc-header">
+    <div class="header-logo-wrap">
+      <img id="header-logo" src="assets/logoez.png" alt="Logo">
+      <div id="logo-placeholder">Logo del<br>estudio</div>
+    </div>
+    <div class="header-info">
+      <div class="header-estudio-nombre" id="hdr-nombre"></div>
+      <div class="header-contacto" id="hdr-contacto"></div>
+      <div class="header-badge-diag">Diagnóstico Mensual</div>
+      <div class="header-meta-row">
+        <span>Período:</span>
+        <span contenteditable="true" class="ce-header" id="ce-periodo" data-ph="MM/AAAA"></span>
+        <span class="header-meta-pipe">|</span>
+        <span>Emisión:</span>
+        <span contenteditable="true" class="ce-header" id="ce-emision" data-ph="DD/MM/AAAA"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- BARRA CLIENTE -->
+  <div class="doc-cliente-bar">
+    <div class="chip">
+      <span class="chip-lbl">Cliente</span>
+      <span class="chip-val" id="chip-rs">—</span>
+    </div>
+    <div class="chip-sep"></div>
+    <div class="chip">
+      <span class="chip-lbl">CUIT / CUIL</span>
+      <span class="chip-val" id="chip-cuit">—</span>
+    </div>
+    <div class="chip-sep"></div>
+    <div class="chip">
+      <span class="chip-lbl">Condición Fiscal</span>
+      <span class="chip-val" id="chip-cond">—</span>
+    </div>
+    <div class="chip-sep"></div>
+    <div class="chip">
+      <span class="chip-lbl">Responsable</span>
+      <span class="chip-val" id="chip-resp">—</span>
+    </div>
+    <div class="chip-sep"></div>
+    <div class="chip">
+      <span class="chip-lbl">Cierre Ejercicio</span>
+      <span class="chip-val" id="chip-cierre">—</span>
+    </div>
+  </div>
+
+  <!-- CUERPO -->
+  <div class="doc-body">
+
+    <!-- ── 1. SITUACIÓN IMPOSITIVA ─────────────────── -->
+    <div class="seccion">
+      <div class="seccion-titulo">
+        <h2>Situación Impositiva</h2>
+      </div>
+      <table class="tabla-imp">
+        <thead>
+          <tr>
+            <th>Impuesto</th>
+            <th>Período</th>
+            <th>Vencimiento</th>
+            <th>Importe</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody id="tbody-imp"></tbody>
+      </table>
+    </div>
+
+    <!-- ── 2. SITUACIÓN PREVISIONAL ────────────────── -->
+    <div class="seccion">
+      <div class="seccion-titulo">
+        <h2>Situación Previsional</h2>
+      </div>
+
+      <!-- Empresa -->
+      <div id="prev-empresa" class="grid-prev" style="display:none">
+        <div class="tarj-prev">
+          <div class="tarj-lbl">Formulario F.931</div>
+          <div class="tarj-val">
+            <span contenteditable="true" class="ce-manual" data-ph="Presentado / Pendiente"></span>
+          </div>
+        </div>
+        <div class="tarj-prev">
+          <div class="tarj-lbl">Cantidad de Empleados</div>
+          <div class="tarj-val">
+            <span contenteditable="true" id="pe-empleados" class="ce-manual" data-ph="—"></span>
+          </div>
+        </div>
+        <div class="tarj-prev">
+          <div class="tarj-lbl">Importe Cargas Sociales</div>
+          <div class="tarj-val">
+            $ <span contenteditable="true" class="ce-manual" data-ph="0,00"></span>
+          </div>
+        </div>
+        <div class="tarj-prev">
+          <div class="tarj-lbl">Vencimiento F.931</div>
+          <div class="tarj-val">
+            <span contenteditable="true" class="ce-manual" data-ph="DD/MM/AAAA"></span>
+          </div>
+        </div>
+        <div class="tarj-prev">
+          <div class="tarj-lbl">ART</div>
+          <div class="tarj-val">
+            <span contenteditable="true" class="ce-manual" data-ph="Aseguradora"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Persona física -->
+      <div id="prev-fisica" class="grid-prev" style="display:none">
+        <div class="tarj-prev">
+          <div class="tarj-lbl">Obra Social</div>
+          <div class="tarj-val">Incluida en cuota monotributo</div>
+        </div>
+        <div class="tarj-prev">
+          <div class="tarj-lbl">Aportes Jubilatorios</div>
+          <div class="tarj-val">Incluido en cuota monotributo</div>
+        </div>
+        <div class="tarj-prev">
+          <div class="tarj-lbl">Categoría Monotributo</div>
+          <div class="tarj-val">
+            <span contenteditable="true" id="pf-categoria" class="ce-manual" data-ph="—"></span>
+          </div>
+        </div>
+        <div class="tarj-prev">
+          <div class="tarj-lbl">Facturación Anual vs Límite Categoría</div>
+          <div class="tarj-val">
+            $ <span contenteditable="true" id="pf-facturacion" class="ce-manual" data-ph="—"></span>
+            &nbsp;/&nbsp;Límite $ <span contenteditable="true" id="pf-limite" class="ce-manual" data-ph="—"></span>
+          </div>
+        </div>
+        <div class="tarj-prev">
+          <div class="tarj-lbl">Próxima Recategorización</div>
+          <div class="tarj-val">
+            <span contenteditable="true" class="ce-manual" data-ph="MM/AAAA"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 3. FECHAS Y VENCIMIENTOS ────────────────── -->
+    <div class="seccion">
+      <div class="seccion-titulo">
+        <h2>Fechas y Vencimientos Clave</h2>
+      </div>
+      <div class="grid-venc" id="grid-venc"></div>
+    </div>
+
+    <!-- ── 4. CUENTA CORRIENTE ─────────────────────── -->
+    <div class="seccion">
+      <div class="seccion-titulo">
+        <h2>Cuenta Corriente con el Estudio</h2>
+      </div>
+      <div class="grid-cuenta">
+        <div class="tarj-cuenta">
+          <div class="cuenta-lbl">Honorarios del Mes</div>
+          <div class="cuenta-monto neutro">
+            $ <span contenteditable="true" id="cc-honorarios" class="ce-manual" data-ph="0"></span>
+          </div>
+        </div>
+        <div class="tarj-cuenta" id="tarj-saldo">
+          <div class="cuenta-lbl">Saldo en Cuenta</div>
+          <div class="cuenta-monto" id="cc-saldo-monto">
+            $ <span contenteditable="true" id="cc-saldo" class="ce-manual" data-ph="0"></span>
+          </div>
+          <div class="cuenta-desc" id="cc-saldo-desc"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 5. OBSERVACIONES ────────────────────────── -->
+    <div class="seccion">
+      <div class="seccion-titulo">
+        <h2>Observaciones y Recomendaciones</h2>
+      </div>
+      <div contenteditable="true" class="caja-obs" id="campo-obs"
+           data-ph="Ingresá las observaciones y recomendaciones del período..."></div>
+    </div>
+
+  </div><!-- /doc-body -->
+
+  <!-- PIE DE PÁGINA -->
+  <div class="doc-footer">
+    <div>
+      <div class="footer-nombre" id="ftr-nombre"></div>
+      <div id="ftr-contacto"></div>
+    </div>
+    <div class="footer-der">
+      <div class="footer-conf">Documento confidencial</div>
+      <div id="ftr-fecha"></div>
+    </div>
+  </div>
+
+  </div><!-- /contenido-doc -->
+
+  <!-- BIENVENIDA (antes de cargar Excel) -->
+  <div id="bienvenida">
+    <h3>Sistema de Diagnóstico Mensual</h3>
+    <p>Cargá el archivo <strong>Tablero_EZ.xlsx</strong> con el botón de arriba para comenzar a generar diagnósticos.</p>
+  </div>
+
+</div><!-- /documento -->
+
+<!-- ═══════════════ JAVASCRIPT ════════════════════════ -->
+<script>
+// ── CONFIGURACIÓN DEL ESTUDIO ─────────────────────────
+const ESTUDIO = {
+  nombre:   "Estudio Contable & Asociados",
+  telefono: "(011) 4000-0000",
+  email:    "info@estudio.com.ar",
+  logo:     "assets/logoez.png"
+};
+// ─────────────────────────────────────────────────────
+
+// Columnas de la hoja "🏢 Clientes" (índice 0-based, datos desde fila 3)
+// A=0  Razón Social          B=1  CUIT
+// C=2  Categoría Fiscal      D=3  Responsable Asignado
+// E=4  Cierre de Ejercicio   F=5  Próximo Anticipo Gs.
+// G=6  Última Comunicación   H=7  Estado Comunicación
+// I=8  Diagnóstico Fiscal    J=9  Cuenta Corriente
+// K=10 Anticipos Ganancias   L=11 Observaciones
+
+let clientes = [];
+
+/* ── Init ──────────────────────────────────────────── */
+(function init() {
+  document.getElementById('hdr-nombre').textContent = ESTUDIO.nombre;
+  document.getElementById('hdr-contacto').innerHTML =
+    ESTUDIO.telefono +
+    '<span class="sep-contacto">·</span>' +
+    ESTUDIO.email;
+  document.getElementById('ftr-nombre').textContent   = ESTUDIO.nombre;
+  document.getElementById('ftr-contacto').textContent = ESTUDIO.telefono + ' · ' + ESTUDIO.email;
+
+  const logo = document.getElementById('header-logo');
+  logo.src = ESTUDIO.logo;
+  logo.onerror = function() {
+    this.style.display = 'none';
+    document.getElementById('logo-placeholder').style.display = 'flex';
+  };
+
+  const hoy = new Date();
+  const d = pad(hoy.getDate()), m = pad(hoy.getMonth() + 1), y = hoy.getFullYear();
+  const fechaHoy = d + '/' + m + '/' + y;
+  document.getElementById('ce-emision').textContent = fechaHoy;
+  document.getElementById('ce-periodo').textContent = m + '/' + y;
+  document.getElementById('ftr-fecha').textContent  = fechaHoy;
+})();
+
+function pad(n) { return String(n).padStart(2, '0'); }
+
+/* ── Carga del Excel ───────────────────────────────── */
+document.getElementById('file-input').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    try {
+      const wb = XLSX.read(ev.target.result, { type: 'binary', cellDates: true });
+
+      // Buscar la hoja que contenga "Clientes" en el nombre (tolerante al emoji)
+      const sheetName = wb.SheetNames.find(function(n) {
+        return n.toLowerCase().includes('clientes');
+      }) || wb.SheetNames[0];
+
+      const ws = wb.Sheets[sheetName];
+
+      // Leer como array de arrays. Estructura del archivo:
+      //   Fila 1 (índice 0): posible título / encabezado general
+      //   Fila 2 (índice 1): encabezados de columna
+      //   Fila 3+ (índice 2+): datos de clientes
+      const raw = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' });
+
+      const rows = raw.slice(2)
+        .filter(function(row) { return str(row[0]); })
+        .map(function(row) {
+          return {
+            razon_social:        str(row[0]),
+            cuit:                str(row[1]),
+            categoria_fiscal:    str(row[2]),
+            responsable:         str(row[3]),
+            cierre_ejercicio:    str(row[4]),
+            proximo_anticipo:    row[5],      // fecha (puede ser Date o string)
+            ultima_comunicacion: str(row[6]),
+            estado_comunicacion: str(row[7]),
+            diagnostico_fiscal:  str(row[8]),
+            cuenta_corriente:    row[9],      // número
+            anticipos_ganancias: str(row[10]),
+            observaciones:       str(row[11])
+          };
+        });
+
+      clientes = rows;
+      poblarSelector(rows);
+      document.getElementById('panel-status').textContent =
+        rows.length + ' clientes cargados · hoja: ' + sheetName;
+    } catch (err) {
+      document.getElementById('panel-status').textContent =
+        'Error al leer el archivo. Verificá que sea un .xlsx válido.';
+      console.error(err);
+    }
+  };
+  reader.readAsBinaryString(file);
+  this.value = '';
+});
+
+function poblarSelector(rows) {
+  const sel = document.getElementById('select-cliente');
+  sel.innerHTML = '<option value="">— Seleccioná un cliente —</option>';
+  rows.forEach(function(row, i) {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = row.razon_social || '(sin nombre)';
+    sel.appendChild(opt);
+  });
+  sel.disabled = false;
+}
+
+document.getElementById('select-cliente').addEventListener('change', function() {
+  if (this.value === '') { document.getElementById('btn-pdf').disabled = true; return; }
+  cargarCliente(clientes[+this.value]);
+  document.getElementById('btn-pdf').disabled = false;
+  document.getElementById('bienvenida').style.display    = 'none';
+  document.getElementById('contenido-doc').style.display = 'block';
+});
+
+/* ── Helpers ───────────────────────────────────────── */
+function str(v) { return (v === null || v === undefined) ? '' : String(v).trim(); }
+
+function moneda(v) {
+  const n = parseFloat(str(v).replace(/[^0-9.\-]/g, ''));
+  if (isNaN(n)) return str(v);
+  return n.toLocaleString('es-AR', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+}
+
+function setChip(id, v) {
+  document.getElementById(id).textContent = str(v) || '—';
+}
+
+function setCE(id, v) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const val = str(v);
+  el.textContent = val;
+  el.className   = val ? 'ce-excel' : 'ce-manual';
+}
+
+/* ── Carga de cliente ──────────────────────────────── */
+function cargarCliente(c) {
+  // Chips de encabezado
+  setChip('chip-rs',    c.razon_social);
+  setChip('chip-cuit',  c.cuit);
+  setChip('chip-cond',  c.categoria_fiscal);
+  setChip('chip-resp',  c.responsable);
+  setChip('chip-cierre',c.cierre_ejercicio);
+
+  // Inferir tipo desde Categoría Fiscal (col C)
+  // "Monotributista" → persona física; cualquier otra → empresa por defecto
+  const cond   = c.categoria_fiscal.toLowerCase();
+  const esMono = cond.includes('monotrib');
+  const esRI   = cond.includes('responsable') && cond.includes('inscri');
+  const esFis  = esMono;
+  const esEmp  = !esMono;
+
+  // Tabla impositiva
+  buildTablaImpositiva(c, esEmp, esFis, esMono, esRI);
+
+  // Situación previsional
+  document.getElementById('prev-empresa').style.display = esEmp ? 'grid' : 'none';
+  document.getElementById('prev-fisica').style.display  = esFis ? 'grid' : 'none';
+
+  if (esFis) {
+    // Intentar extraer letra de categoría de la descripción fiscal
+    // Ej: "Monotributista Categoría H" → "H"
+    const match = c.categoria_fiscal.match(/categor[ií]a\s+([A-K])/i);
+    const cat   = match ? match[1] : '';
+    setCE('pf-categoria', cat);
+    setCE('pf-facturacion', '');
+    setCE('pf-limite', '');
+  }
+
+  // Vencimientos
+  buildVencimientos(c);
+
+  // Cuenta Corriente (col J)
+  const honEl = document.getElementById('cc-honorarios');
+  honEl.textContent = ''; honEl.className = 'ce-manual';
+
+  const saldo    = parseFloat(str(c.cuenta_corriente).replace(/[^0-9.\-]/g, '')) || 0;
+  const saldoStr = moneda(c.cuenta_corriente);
+  const saldoEl  = document.getElementById('cc-saldo');
+  saldoEl.textContent = saldoStr || '0';
+  saldoEl.className   = saldoStr ? 'ce-excel' : 'ce-manual';
+
+  const montoEl = document.getElementById('cc-saldo-monto');
+  const tarjEl  = document.getElementById('tarj-saldo');
+  const descEl  = document.getElementById('cc-saldo-desc');
+  tarjEl.className  = 'tarj-cuenta';
+  montoEl.className = 'cuenta-monto';
+
+  if (saldo < 0) {
+    tarjEl.classList.add('deuda-bg');
+    montoEl.classList.add('deuda');
+    descEl.textContent = 'Saldo a favor del estudio (deuda del cliente)';
+  } else if (saldo > 0) {
+    tarjEl.classList.add('favor-bg');
+    montoEl.classList.add('favor');
+    descEl.textContent = 'Saldo a favor del cliente';
+  } else {
+    montoEl.classList.add('neutro');
+    descEl.textContent = 'Al día';
+  }
+
+  // Observaciones: combinar "Diagnóstico Fiscal" (col I) + "Observaciones" (col L)
+  const partes = [c.diagnostico_fiscal, c.observaciones].filter(Boolean);
+  document.getElementById('campo-obs').textContent = partes.join('\n\n');
+}
+
+/* ── Tabla impositiva ──────────────────────────────── */
+function buildTablaImpositiva(c, esEmp, esFis, esMono, esRI) {
+  const tbody = document.getElementById('tbody-imp');
+  tbody.innerHTML = '';
+
+  const filas = [];
+
+  // IVA — solo Responsable Inscripto
+  if (esRI) {
+    filas.push({ nombre: 'IVA' });
+  }
+
+  // Ganancias — Anticipo
+  // col K = descripción ("5 cuotas bimestrales"), col F = fecha del próximo
+  const tieneAnticipo = c.anticipos_ganancias || str(c.proximo_anticipo);
+  if (tieneAnticipo) {
+    filas.push({
+      nombre:      'Ganancias — Anticipo',
+      periodo:     c.anticipos_ganancias,
+      vencimiento: formatFecha(c.proximo_anticipo),
+      importe:     ''
+    });
+  } else {
+    filas.push({ nombre: 'Ganancias — Anticipo' });
+  }
+
+  filas.push({ nombre: 'Ganancias — DDJJ Anual' });
+  filas.push({ nombre: 'Ingresos Brutos (IIBB)' });
+
+  if (esMono) {
+    filas.push({ nombre: 'Monotributo' });
+  }
+
+  // Bienes Personales — personas físicas (campo manual, no está en el Excel nuevo)
+  if (esFis) {
+    filas.push({ nombre: 'Bienes Personales' });
+  }
+
+  if (esEmp) {
+    filas.push({ nombre: 'Impuesto sobre Cheques' });
+  }
+
+  filas.forEach(function(f) {
+    const tr   = document.createElement('tr');
+    const per  = f.periodo     || '';
+    const venc = f.vencimiento || '';
+    const imp  = f.importe     || '';
+
+    tr.innerHTML =
+      '<td class="imp-nombre">' + escHtml(f.nombre) + '</td>' +
+      '<td><span contenteditable="true" class="' + (per  ? 'ce-excel' : 'ce-manual') + '" data-ph="MM/AAAA">'    + escHtml(per)  + '</span></td>' +
+      '<td><span contenteditable="true" class="' + (venc ? 'ce-excel' : 'ce-manual') + '" data-ph="DD/MM/AAAA">' + escHtml(venc) + '</span></td>' +
+      '<td>$ <span contenteditable="true" class="' + (imp ? 'ce-excel' : 'ce-manual') + '" data-ph="0,00">'      + escHtml(imp)  + '</span></td>' +
+      '<td>' + mkSelectEstado('pendiente') + '</td>';
+    tbody.appendChild(tr);
+  });
+}
+
+function mkSelectEstado(val) {
+  var opciones = [
+    ['presentado',    'Presentado'],
+    ['en-curso',      'En curso'],
+    ['pendiente',     'Pendiente'],
+    ['sin-presentar', 'Sin presentar']
+  ];
+  var html = '<select class="sel-estado ' + val + '" onchange="this.className=\'sel-estado \'+this.value">';
+  opciones.forEach(function(o) {
+    html += '<option value="' + o[0] + '"' + (o[0] === val ? ' selected' : '') + '>' + o[1] + '</option>';
+  });
+  html += '</select>';
+  html += '<span class="badge-estado ' + val + '" data-for-print>' +
+            opciones.find(function(o) { return o[0] === val; })[1] +
+          '</span>';
+  return html;
+}
+
+/* ── Vencimientos ──────────────────────────────────── */
+function buildVencimientos(c) {
+  const grid = document.getElementById('grid-venc');
+  grid.innerHTML = '';
+  const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
+
+  const items = [];
+
+  // Próximo Anticipo Ganancias (col F)
+  if (str(c.proximo_anticipo)) {
+    items.push({ nombre: 'Ganancias — Anticipo', fecha: c.proximo_anticipo });
+  }
+
+  // Slots manuales para vencimientos mensuales
+  ['IVA', 'Ingresos Brutos', 'Monotributo / F.931'].forEach(function(nombre) {
+    items.push({ nombre: nombre, manual: true });
+  });
+
+  items.forEach(function(item) {
+    const card = document.createElement('div');
+    let clase = 'ok', fechaStr = '', diasStr = '';
+
+    if (!item.manual && item.fecha) {
+      const parsed = parseFecha(item.fecha);
+      if (parsed) {
+        fechaStr = formatFecha(item.fecha);
+        const diff = Math.round((parsed - hoy) / 86400000);
+        clase    = diff <= 7 ? 'urgente' : diff <= 15 ? 'proximo' : 'ok';
+        diasStr  = diff < 0 ? 'Vencida' : diff === 0 ? 'Hoy' : 'En ' + diff + ' días';
+      }
+    }
+
+    card.className = 'tarj-venc ' + clase;
+    card.innerHTML =
+      '<div class="venc-nombre">' + escHtml(item.nombre) + '</div>' +
+      '<div class="venc-fecha" contenteditable="true" data-ph="DD/MM/AAAA">' + escHtml(fechaStr) + '</div>' +
+      '<div class="venc-dias">' + escHtml(diasStr) + '</div>';
+
+    grid.appendChild(card);
+  });
+}
+
+/* ── Fecha helpers ─────────────────────────────────── */
+function parseFecha(v) {
+  if (!v) return null;
+  // Ya es Date (cellDates:true de SheetJS)
+  if (v instanceof Date) return new Date(v.getFullYear(), v.getMonth(), v.getDate());
+  const s = String(v).trim();
+  let m;
+  if ((m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/)))
+    return new Date(+m[3], +m[2]-1, +m[1]);
+  if ((m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/)))
+    return new Date(+m[1], +m[2]-1, +m[3]);
+  // Serial Excel
+  const n = parseFloat(s);
+  if (!isNaN(n)) {
+    const ep = new Date(1899, 11, 30);
+    return new Date(ep.getTime() + n * 86400000);
+  }
+  return null;
+}
+
+function formatFecha(v) {
+  if (!v) return '';
+  const d = parseFecha(v);
+  if (!d) return str(v);
+  return pad(d.getDate()) + '/' + pad(d.getMonth()+1) + '/' + d.getFullYear();
+}
+
+/* ── Escape HTML ───────────────────────────────────── */
+function escHtml(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+/* ── Print: ocultar filas vacías + sincronizar badges ── */
+window.addEventListener('beforeprint', function() {
+  // Marcar filas de la tabla sin ningún dato cargado para ocultarlas
+  document.querySelectorAll('#tbody-imp tr').forEach(function(tr) {
+    var tieneContenido = false;
+    tr.querySelectorAll('[contenteditable]').forEach(function(celda) {
+      if (celda.textContent.trim()) tieneContenido = true;
+    });
+    if (!tieneContenido) tr.classList.add('tr-vacia-print');
+  });
+
+  // Sincronizar texto y color de badges de estado
+  document.querySelectorAll('.sel-estado').forEach(function(sel) {
+    var val   = sel.value;
+    var label = sel.options[sel.selectedIndex].text;
+    var badge = sel.nextElementSibling;
+    if (badge && badge.hasAttribute('data-for-print')) {
+      badge.className   = 'badge-estado ' + val;
+      badge.textContent = label;
+    }
+  });
+});
+
+window.addEventListener('afterprint', function() {
+  // Restaurar filas ocultas por el beforeprint
+  document.querySelectorAll('#tbody-imp tr.tr-vacia-print').forEach(function(tr) {
+    tr.classList.remove('tr-vacia-print');
+  });
+});
+</script>
+</body>
+</html>
