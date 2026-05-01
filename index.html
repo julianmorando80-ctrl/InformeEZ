@@ -111,7 +111,13 @@
       align-items: center;
       gap: 24px;
     }
-    .header-logo-wrap { flex-shrink: 0; }
+    .header-logo-wrap {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 16px;
+    }
     #header-logo { height: 120px; width: auto; max-width: 280px; object-fit: contain; display: block; }
     #logo-placeholder {
       width: 160px; height: 120px;
@@ -125,6 +131,39 @@
       text-align: center;
       line-height: 1.3;
       padding: 6px;
+    }
+
+    /* ── Logo cliente ──────────────────────────────── */
+    #logo-cliente-wrap {
+      width: 80px;
+      height: 55px;
+      border: 1.5px dashed rgba(255,255,255,0.38);
+      border-radius: 4px;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      overflow: hidden;
+      transition: border-color .2s;
+    }
+    #logo-cliente-wrap:hover { border-color: rgba(255,255,255,0.7); }
+    #file-cliente-input { display: none; }
+    #logo-cliente-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: none;
+      background: transparent;
+    }
+    #logo-cliente-ph {
+      font-size: 9.5px;
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+      line-height: 1.35;
+      pointer-events: none;
+      user-select: none;
     }
     .header-info { text-align: right; }
     .header-estudio-nombre {
@@ -486,6 +525,11 @@
       /* ── Colores de fondo ── */
       * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 
+      /* ── Logo cliente en impresión ── */
+      #logo-cliente-wrap:not(.loaded) { display: none !important; }
+      #logo-cliente-wrap.loaded { border: none !important; }
+      #logo-cliente-wrap.loaded #logo-cliente-ph { display: none !important; }
+
       /* ── Encabezado ── */
       .doc-header { padding: 14px 20px !important; }
       #header-logo { height: 60px !important; width: auto !important; max-width: 180px !important; }
@@ -618,6 +662,11 @@
     <div class="header-logo-wrap">
       <img id="header-logo" src="logoez.png" alt="Logo">
       <div id="logo-placeholder">Logo del<br>estudio</div>
+      <div id="logo-cliente-wrap" title="Clic para cargar logo del cliente (PNG)">
+        <input type="file" id="file-cliente-input" accept="image/png">
+        <img id="logo-cliente-img" alt="Logo cliente">
+        <span id="logo-cliente-ph">Logo<br>cliente</span>
+      </div>
     </div>
     <div class="header-info">
       <div class="header-estudio-nombre" id="hdr-nombre"></div>
@@ -1186,6 +1235,23 @@ function formatFecha(v) {
 function escHtml(s) {
   return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
+
+/* ── Print: ocultar filas vacías + sincronizar badges ── */
+/* ── Logo cliente ──────────────────────────────────── */
+document.getElementById('logo-cliente-wrap').addEventListener('click', function() {
+  document.getElementById('file-cliente-input').click();
+});
+
+document.getElementById('file-cliente-input').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const img = document.getElementById('logo-cliente-img');
+  img.src = URL.createObjectURL(file);
+  img.style.display = 'block';
+  document.getElementById('logo-cliente-ph').style.display = 'none';
+  document.getElementById('logo-cliente-wrap').classList.add('loaded');
+  this.value = '';
+});
 
 /* ── Print: ocultar filas vacías + sincronizar badges ── */
 window.addEventListener('beforeprint', function() {
