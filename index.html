@@ -285,14 +285,14 @@
       letter-spacing: .2px;
     }
 
-    /* ── Tabla impositiva ──────────────────────────── */
-    .tabla-imp {
+    /* ── Tabla de rendición (impositiva / previsional) ── */
+    .tabla-rendicion {
       width: 100%;
       border-collapse: collapse;
-      font-size: 12.5px;
+      font-size: 13px;
     }
-    .tabla-imp thead tr { background: var(--azul-oscuro); color: white; }
-    .tabla-imp thead th {
+    .tabla-rendicion thead tr { background: var(--azul-oscuro); color: white; }
+    .tabla-rendicion thead th {
       padding: 9px 13px;
       text-align: left;
       font-weight: 700;
@@ -300,15 +300,94 @@
       letter-spacing: .6px;
       text-transform: uppercase;
     }
-    .tabla-imp tbody tr:nth-child(even)  { background: var(--celeste-suave); }
-    .tabla-imp tbody tr:nth-child(odd)   { background: white; }
-    .tabla-imp tbody td {
-      padding: 9px 13px;
+    .tabla-rendicion thead th:last-child { width: 36px; }
+    .tabla-rendicion tbody tr:nth-child(even) { background: var(--celeste-suave); }
+    .tabla-rendicion tbody tr:nth-child(odd)  { background: white; }
+    .tabla-rendicion tbody td {
+      padding: 5px 10px;
       border-bottom: 1px solid var(--gris-borde);
       vertical-align: middle;
     }
-    .tabla-imp tbody tr:last-child td { border-bottom: none; }
-    .imp-nombre { font-weight: 700; color: var(--texto); }
+    .tabla-rendicion tbody tr:last-child td { border-bottom: none; }
+
+    .inp-concepto, .inp-anio, .inp-importe {
+      font-family: 'Lato', sans-serif;
+      font-size: 13px;
+      border: none;
+      background: transparent;
+      outline: none;
+      color: var(--texto);
+    }
+    .inp-concepto { width: 100%; min-width: 140px; }
+    .inp-anio     { width: 64px; text-align: center; }
+    .inp-importe  { width: 110px; text-align: right; }
+    .inp-concepto:focus, .inp-anio:focus, .inp-importe:focus {
+      background: rgba(21,101,192,.05);
+      border-radius: 2px;
+    }
+    /* ocultar flechas del input number */
+    .inp-importe::-webkit-inner-spin-button,
+    .inp-importe::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    .inp-importe { -moz-appearance: textfield; }
+
+    .celda-importe {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .prefijo-peso { color: var(--gris-texto); font-weight: 700; flex-shrink: 0; }
+
+    .fila-total td {
+      padding: 10px 13px;
+      font-weight: 700;
+      border-top: 2px solid var(--azul-oscuro);
+      background: white;
+    }
+    .fila-total .lbl-total {
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      font-size: 10.5px;
+      color: var(--gris-texto);
+    }
+    .celda-total { font-size: 16px; }
+    .celda-total.al-dia    { color: var(--verde-medio); }
+    .celda-total.con-deuda { color: var(--rojo-medio); font-weight: 900; }
+
+    .btn-agregar {
+      margin-top: 8px;
+      font-family: 'Lato', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 14px;
+      border: 1.5px solid var(--azul-medio);
+      border-radius: 4px;
+      background: white;
+      color: var(--azul-medio);
+      cursor: pointer;
+      transition: background .15s;
+    }
+    .btn-agregar:hover { background: var(--celeste-suave); }
+
+    .btn-eliminar {
+      font-size: 15px;
+      font-weight: 700;
+      width: 26px;
+      height: 26px;
+      border: none;
+      border-radius: 50%;
+      background: transparent;
+      color: var(--gris-texto);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      margin: 0 auto;
+      transition: background .15s, color .15s;
+    }
+    .btn-eliminar:hover { background: var(--rojo-suave); color: var(--rojo-medio); }
+
+    .no-print { /* oculto en @media print */ }
 
     /* ── Select de estado ─────────────────────────── */
     .sel-estado {
@@ -575,25 +654,21 @@
       }
       .seccion-titulo h2 { font-size: 13px !important; }
 
-      /* ── Tabla impositiva ── */
-      .tabla-imp { font-size: 10px !important; }
-      .tabla-imp thead th { padding: 5px 10px !important; font-size: 9.5px !important; }
-      .tabla-imp tbody td { padding: 4px 10px !important; min-height: 22px !important; }
-      .tabla-imp tbody tr { min-height: 22px !important; }
-      .tr-vacia-print { display: none !important; }
+      /* ── No-print elements ── */
+      .no-print { display: none !important; }
 
-      /* ── Previsional ── */
-      .grid-prev { gap: 8px !important; }
-      .tarj-prev { padding: 10px !important; }
-      .tarj-lbl { font-size: 8.5px !important; margin-bottom: 3px !important; }
-      .tarj-val { font-size: 11px !important; }
-
-      /* ── Vencimientos ── */
-      .grid-venc { grid-template-columns: repeat(3, 1fr) !important; gap: 8px !important; }
-      .tarj-venc { padding: 8px 12px !important; min-height: 45px !important; }
-      .venc-nombre { font-size: 9px !important; margin-bottom: 3px !important; }
-      .venc-fecha  { font-size: 13px !important; }
-      .venc-dias   { font-size: 8.5px !important; margin-top: 2px !important; }
+      /* ── Tabla de rendición ── */
+      .tabla-rendicion { font-size: 10px !important; }
+      .tabla-rendicion thead th { padding: 5px 10px !important; font-size: 9px !important; }
+      .tabla-rendicion tbody td { padding: 4px 8px !important; }
+      .fila-total td { padding: 7px 10px !important; }
+      .celda-total { font-size: 13px !important; }
+      .lbl-total { font-size: 9px !important; }
+      .inp-concepto, .inp-anio, .inp-importe {
+        font-size: 10px !important;
+        border: none !important;
+        background: transparent !important;
+      }
 
       /* ── Cuenta corriente ── */
       .grid-cuenta { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
@@ -732,18 +807,25 @@
       <div class="seccion-titulo">
         <h2>Situación Impositiva</h2>
       </div>
-      <table class="tabla-imp">
+      <table class="tabla-rendicion">
         <thead>
           <tr>
-            <th>Impuesto</th>
-            <th>Período</th>
-            <th>Vencimiento</th>
-            <th>Importe</th>
-            <th>Estado</th>
+            <th>Concepto</th>
+            <th style="width:80px">Año</th>
+            <th style="width:150px;text-align:right">Importe</th>
+            <th class="no-print" style="width:36px"></th>
           </tr>
         </thead>
-        <tbody id="tbody-imp"></tbody>
+        <tbody id="tbody-impositiva"></tbody>
+        <tfoot>
+          <tr class="fila-total">
+            <td colspan="2"><span class="lbl-total">Total Impositivo</span></td>
+            <td class="celda-total" id="total-impositiva">$ 0</td>
+            <td class="no-print"></td>
+          </tr>
+        </tfoot>
       </table>
+      <button class="btn-agregar no-print" onclick="agregarFila('tbody-impositiva','total-impositiva')">+ Agregar fila</button>
     </div>
 
     <!-- ── 2. SITUACIÓN PREVISIONAL ────────────────── -->
@@ -751,83 +833,29 @@
       <div class="seccion-titulo">
         <h2>Situación Previsional</h2>
       </div>
-
-      <!-- Empresa -->
-      <div id="prev-empresa" class="grid-prev" style="display:none">
-        <div class="tarj-prev">
-          <div class="tarj-lbl">Formulario F.931</div>
-          <div class="tarj-val">
-            <span contenteditable="true" class="ce-manual" data-ph="Presentado / Pendiente"></span>
-          </div>
-        </div>
-        <div class="tarj-prev">
-          <div class="tarj-lbl">Cantidad de Empleados</div>
-          <div class="tarj-val">
-            <span contenteditable="true" id="pe-empleados" class="ce-manual" data-ph="—"></span>
-          </div>
-        </div>
-        <div class="tarj-prev">
-          <div class="tarj-lbl">Importe Cargas Sociales</div>
-          <div class="tarj-val">
-            $ <span contenteditable="true" class="ce-manual" data-ph="0,00"></span>
-          </div>
-        </div>
-        <div class="tarj-prev">
-          <div class="tarj-lbl">Vencimiento F.931</div>
-          <div class="tarj-val">
-            <span contenteditable="true" class="ce-manual" data-ph="DD/MM/AAAA"></span>
-          </div>
-        </div>
-        <div class="tarj-prev">
-          <div class="tarj-lbl">ART</div>
-          <div class="tarj-val">
-            <span contenteditable="true" class="ce-manual" data-ph="Aseguradora"></span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Persona física -->
-      <div id="prev-fisica" class="grid-prev" style="display:none">
-        <div class="tarj-prev">
-          <div class="tarj-lbl">Obra Social</div>
-          <div class="tarj-val">Incluida en cuota monotributo</div>
-        </div>
-        <div class="tarj-prev">
-          <div class="tarj-lbl">Aportes Jubilatorios</div>
-          <div class="tarj-val">Incluido en cuota monotributo</div>
-        </div>
-        <div class="tarj-prev">
-          <div class="tarj-lbl">Categoría Monotributo</div>
-          <div class="tarj-val">
-            <span contenteditable="true" id="pf-categoria" class="ce-manual" data-ph="—"></span>
-          </div>
-        </div>
-        <div class="tarj-prev">
-          <div class="tarj-lbl">Facturación Anual vs Límite Categoría</div>
-          <div class="tarj-val">
-            $ <span contenteditable="true" id="pf-facturacion" class="ce-manual" data-ph="—"></span>
-            &nbsp;/&nbsp;Límite $ <span contenteditable="true" id="pf-limite" class="ce-manual" data-ph="—"></span>
-          </div>
-        </div>
-        <div class="tarj-prev">
-          <div class="tarj-lbl">Próxima Recategorización</div>
-          <div class="tarj-val">
-            <span contenteditable="true" class="ce-manual" data-ph="MM/AAAA"></span>
-          </div>
-        </div>
-      </div>
+      <table class="tabla-rendicion">
+        <thead>
+          <tr>
+            <th>Concepto</th>
+            <th style="width:80px">Año</th>
+            <th style="width:150px;text-align:right">Importe</th>
+            <th class="no-print" style="width:36px"></th>
+          </tr>
+        </thead>
+        <tbody id="tbody-previsional"></tbody>
+        <tfoot>
+          <tr class="fila-total">
+            <td colspan="2"><span class="lbl-total">Total Previsional</span></td>
+            <td class="celda-total" id="total-previsional">$ 0</td>
+            <td class="no-print"></td>
+          </tr>
+        </tfoot>
+      </table>
+      <button class="btn-agregar no-print" onclick="agregarFila('tbody-previsional','total-previsional')">+ Agregar fila</button>
     </div>
 
-    <!-- ── 3. FECHAS Y VENCIMIENTOS ────────────────── -->
-    <div class="seccion">
-      <div class="seccion-titulo">
-        <h2>Fechas y Vencimientos Clave</h2>
-      </div>
-      <div class="grid-venc" id="grid-venc"></div>
-    </div>
-
-    <!-- ── 4. CUENTA CORRIENTE ─────────────────────── -->
-    <div class="seccion">
+    <!-- ── 3. CUENTA CORRIENTE ─────────────────────── -->
+    <div class="seccion" style="margin-bottom:20px">
       <div class="seccion-titulo">
         <h2>Cuenta Corriente con el Estudio</h2>
       </div>
@@ -848,7 +876,7 @@
       </div>
     </div>
 
-    <!-- ── 5. OBSERVACIONES ────────────────────────── -->
+    <!-- ── 4. OBSERVACIONES ────────────────────────── -->
     <div class="seccion">
       <div class="seccion-titulo">
         <h2>Observaciones y Recomendaciones</h2>
@@ -928,6 +956,8 @@ let clientes = [];
   document.getElementById('ce-emision').textContent = fechaHoy;
   document.getElementById('ce-periodo').textContent = m + '/' + y;
   document.getElementById('ftr-fecha').textContent  = fechaHoy;
+
+  initTablas();
 })();
 
 function pad(n) { return String(n).padStart(2, '0'); }
@@ -1037,33 +1067,8 @@ function cargarCliente(c) {
   setChip('chip-resp',  c.responsable);
   setChip('chip-cierre',c.cierre_ejercicio);
 
-  // Inferir tipo desde Categoría Fiscal (col C)
-  // "Monotributista" → persona física; cualquier otra → empresa por defecto
-  const cond   = c.categoria_fiscal.toLowerCase();
-  const esMono = cond.includes('monotrib');
-  const esRI   = cond.includes('responsable') && cond.includes('inscri');
-  const esFis  = esMono;
-  const esEmp  = !esMono;
-
-  // Tabla impositiva
-  buildTablaImpositiva(c, esEmp, esFis, esMono, esRI);
-
-  // Situación previsional
-  document.getElementById('prev-empresa').style.display = esEmp ? 'grid' : 'none';
-  document.getElementById('prev-fisica').style.display  = esFis ? 'grid' : 'none';
-
-  if (esFis) {
-    // Intentar extraer letra de categoría de la descripción fiscal
-    // Ej: "Monotributista Categoría H" → "H"
-    const match = c.categoria_fiscal.match(/categor[ií]a\s+([A-K])/i);
-    const cat   = match ? match[1] : '';
-    setCE('pf-categoria', cat);
-    setCE('pf-facturacion', '');
-    setCE('pf-limite', '');
-  }
-
-  // Vencimientos
-  buildVencimientos(c);
+  // Reiniciar tablas de rendición con filas en blanco
+  resetTablas();
 
   // Cuenta Corriente (col J)
   const honEl = document.getElementById('cc-honorarios');
@@ -1099,149 +1104,62 @@ function cargarCliente(c) {
   document.getElementById('campo-obs').textContent = partes.join('\n\n');
 }
 
-/* ── Tabla impositiva ──────────────────────────────── */
-function buildTablaImpositiva(c, esEmp, esFis, esMono, esRI) {
-  const tbody = document.getElementById('tbody-imp');
-  tbody.innerHTML = '';
+/* ── Tablas editables ──────────────────────────────── */
+function crearFila(tbodyId, totalId) {
+  const anioActual = new Date().getFullYear();
+  const tr = document.createElement('tr');
+  tr.innerHTML =
+    '<td><input class="inp-concepto" type="text" placeholder="Concepto..."></td>' +
+    '<td><input class="inp-anio" type="text" placeholder="' + anioActual + '"></td>' +
+    '<td><div class="celda-importe"><span class="prefijo-peso">$</span>' +
+      '<input class="inp-importe" type="number" placeholder="0" step="any" ' +
+      'oninput="calcularTotal(\'' + tbodyId + '\',\'' + totalId + '\')">' +
+    '</div></td>' +
+    '<td class="no-print"><button class="btn-eliminar" ' +
+      'onclick="eliminarFila(this,\'' + tbodyId + '\',\'' + totalId + '\')" ' +
+      'title="Eliminar fila">×</button></td>';
+  return tr;
+}
 
-  const filas = [];
+function agregarFila(tbodyId, totalId) {
+  document.getElementById(tbodyId).appendChild(crearFila(tbodyId, totalId));
+}
 
-  // IVA — solo Responsable Inscripto
-  if (esRI) {
-    filas.push({ nombre: 'IVA' });
-  }
+function eliminarFila(btn, tbodyId, totalId) {
+  btn.closest('tr').remove();
+  calcularTotal(tbodyId, totalId);
+}
 
-  // Ganancias — Anticipo
-  // col K = descripción ("5 cuotas bimestrales"), col F = fecha del próximo
-  const tieneAnticipo = c.anticipos_ganancias || str(c.proximo_anticipo);
-  if (tieneAnticipo) {
-    filas.push({
-      nombre:      'Ganancias — Anticipo',
-      periodo:     c.anticipos_ganancias,
-      vencimiento: formatFecha(c.proximo_anticipo),
-      importe:     ''
-    });
-  } else {
-    filas.push({ nombre: 'Ganancias — Anticipo' });
-  }
+function calcularTotal(tbodyId, totalId) {
+  const totalEl = document.getElementById(totalId);
+  let suma = 0;
+  document.getElementById(tbodyId).querySelectorAll('.inp-importe').forEach(function(inp) {
+    const v = parseFloat(inp.value);
+    if (!isNaN(v)) suma += v;
+  });
+  totalEl.textContent = '$ ' + suma.toLocaleString('es-AR', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+  totalEl.className = 'celda-total ' + (suma < 0 ? 'con-deuda' : 'al-dia');
+}
 
-  filas.push({ nombre: 'Ganancias — DDJJ Anual' });
-  filas.push({ nombre: 'Ingresos Brutos (IIBB)' });
-
-  if (esMono) {
-    filas.push({ nombre: 'Monotributo' });
-  }
-
-  // Bienes Personales — personas físicas (campo manual, no está en el Excel nuevo)
-  if (esFis) {
-    filas.push({ nombre: 'Bienes Personales' });
-  }
-
-  if (esEmp) {
-    filas.push({ nombre: 'Impuesto sobre Cheques' });
-  }
-
-  filas.forEach(function(f) {
-    const tr   = document.createElement('tr');
-    const per  = f.periodo     || '';
-    const venc = f.vencimiento || '';
-    const imp  = f.importe     || '';
-
-    tr.innerHTML =
-      '<td class="imp-nombre">' + escHtml(f.nombre) + '</td>' +
-      '<td><span contenteditable="true" class="' + (per  ? 'ce-excel' : 'ce-manual') + '" data-ph="MM/AAAA">'    + escHtml(per)  + '</span></td>' +
-      '<td><span contenteditable="true" class="' + (venc ? 'ce-excel' : 'ce-manual') + '" data-ph="DD/MM/AAAA">' + escHtml(venc) + '</span></td>' +
-      '<td>$ <span contenteditable="true" class="' + (imp ? 'ce-excel' : 'ce-manual') + '" data-ph="0,00">'      + escHtml(imp)  + '</span></td>' +
-      '<td>' + mkSelectEstado('pendiente') + '</td>';
-    tbody.appendChild(tr);
+function initTablas() {
+  ['IVA', 'Ingresos Brutos (IIBB)', 'Ganancias — Anticipo', 'Ganancias — DDJJ Anual'].forEach(function(concepto) {
+    const tr = crearFila('tbody-impositiva', 'total-impositiva');
+    tr.querySelector('.inp-concepto').value = concepto;
+    document.getElementById('tbody-impositiva').appendChild(tr);
+  });
+  ['Monotributo / F.931', 'Cargas Sociales', 'ART'].forEach(function(concepto) {
+    const tr = crearFila('tbody-previsional', 'total-previsional');
+    tr.querySelector('.inp-concepto').value = concepto;
+    document.getElementById('tbody-previsional').appendChild(tr);
   });
 }
 
-function mkSelectEstado(val) {
-  var opciones = [
-    ['presentado',    'Presentado'],
-    ['en-curso',      'En curso'],
-    ['pendiente',     'Pendiente'],
-    ['sin-presentar', 'Sin presentar']
-  ];
-  var html = '<select class="sel-estado ' + val + '" onchange="this.className=\'sel-estado \'+this.value">';
-  opciones.forEach(function(o) {
-    html += '<option value="' + o[0] + '"' + (o[0] === val ? ' selected' : '') + '>' + o[1] + '</option>';
-  });
-  html += '</select>';
-  html += '<span class="badge-estado ' + val + '" data-for-print>' +
-            opciones.find(function(o) { return o[0] === val; })[1] +
-          '</span>';
-  return html;
-}
-
-/* ── Vencimientos ──────────────────────────────────── */
-function buildVencimientos(c) {
-  const grid = document.getElementById('grid-venc');
-  grid.innerHTML = '';
-  const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
-
-  const items = [];
-
-  // Próximo Anticipo Ganancias (col F)
-  if (str(c.proximo_anticipo)) {
-    items.push({ nombre: 'Ganancias — Anticipo', fecha: c.proximo_anticipo });
-  }
-
-  // Slots manuales para vencimientos mensuales
-  ['IVA', 'Ingresos Brutos', 'Monotributo / F.931'].forEach(function(nombre) {
-    items.push({ nombre: nombre, manual: true });
-  });
-
-  items.forEach(function(item) {
-    const card = document.createElement('div');
-    let clase = 'ok', fechaStr = '', diasStr = '';
-
-    if (!item.manual && item.fecha) {
-      const parsed = parseFecha(item.fecha);
-      if (parsed) {
-        fechaStr = formatFecha(item.fecha);
-        const diff = Math.round((parsed - hoy) / 86400000);
-        clase    = diff <= 7 ? 'urgente' : diff <= 15 ? 'proximo' : 'ok';
-        diasStr  = diff < 0 ? 'Vencida' : diff === 0 ? 'Hoy' : 'En ' + diff + ' días';
-      }
-    }
-
-    card.className = 'tarj-venc ' + clase;
-    card.innerHTML =
-      '<div class="venc-nombre">' + escHtml(item.nombre) + '</div>' +
-      '<div class="venc-fecha" contenteditable="true" data-ph="DD/MM/AAAA">' + escHtml(fechaStr) + '</div>' +
-      '<div class="venc-dias">' + escHtml(diasStr) + '</div>';
-
-    grid.appendChild(card);
-  });
-}
-
-/* ── Fecha helpers ─────────────────────────────────── */
-function parseFecha(v) {
-  if (!v) return null;
-  // Ya es Date (cellDates:true de SheetJS)
-  if (v instanceof Date) return new Date(v.getFullYear(), v.getMonth(), v.getDate());
-  const s = String(v).trim();
-  let m;
-  if ((m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/)))
-    return new Date(+m[3], +m[2]-1, +m[1]);
-  if ((m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/)))
-    return new Date(+m[1], +m[2]-1, +m[3]);
-  // Serial Excel
-  const n = parseFloat(s);
-  if (!isNaN(n)) {
-    const ep = new Date(1899, 11, 30);
-    return new Date(ep.getTime() + n * 86400000);
-  }
-  return null;
-}
-
-function formatFecha(v) {
-  if (!v) return '';
-  const d = parseFecha(v);
-  if (!d) return str(v);
-  return pad(d.getDate()) + '/' + pad(d.getMonth()+1) + '/' + d.getFullYear();
+function resetTablas() {
+  document.getElementById('tbody-impositiva').innerHTML = '';
+  document.getElementById('tbody-previsional').innerHTML = '';
+  document.getElementById('total-impositiva').textContent = '$ 0';
+  document.getElementById('total-previsional').textContent = '$ 0';
+  initTablas();
 }
 
 /* ── Escape HTML ───────────────────────────────────── */
@@ -1249,7 +1167,6 @@ function escHtml(s) {
   return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-/* ── Print: ocultar filas vacías + sincronizar badges ── */
 /* ── Logo cliente ──────────────────────────────────── */
 document.getElementById('logo-cliente-wrap').addEventListener('click', function() {
   document.getElementById('file-cliente-input').click();
@@ -1266,34 +1183,13 @@ document.getElementById('file-cliente-input').addEventListener('change', functio
   this.value = '';
 });
 
-/* ── Print: ocultar filas vacías + sincronizar badges ── */
+/* ── Print ─────────────────────────────────────────── */
 window.addEventListener('beforeprint', function() {
-  // Marcar filas de la tabla sin ningún dato cargado para ocultarlas
-  document.querySelectorAll('#tbody-imp tr').forEach(function(tr) {
-    var tieneContenido = false;
-    tr.querySelectorAll('[contenteditable]').forEach(function(celda) {
-      if (celda.textContent.trim()) tieneContenido = true;
-    });
-    if (!tieneContenido) tr.classList.add('tr-vacia-print');
-  });
-
-  // Sincronizar texto y color de badges de estado
-  document.querySelectorAll('.sel-estado').forEach(function(sel) {
-    var val   = sel.value;
-    var label = sel.options[sel.selectedIndex].text;
-    var badge = sel.nextElementSibling;
-    if (badge && badge.hasAttribute('data-for-print')) {
-      badge.className   = 'badge-estado ' + val;
-      badge.textContent = label;
-    }
-  });
+  // noop — tablas de rendición se imprimen tal cual
 });
 
 window.addEventListener('afterprint', function() {
-  // Restaurar filas ocultas por el beforeprint
-  document.querySelectorAll('#tbody-imp tr.tr-vacia-print').forEach(function(tr) {
-    tr.classList.remove('tr-vacia-print');
-  });
+  // noop
 });
 </script>
 </body>
