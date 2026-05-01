@@ -103,13 +103,14 @@
 
     /* ── Encabezado ────────────────────────────────── */
     .doc-header {
-      background: var(--azul-oscuro);
-      color: white;
+      background: #FAFAF7;
+      color: #1A1A2E;
       padding: 28px 36px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 24px;
+      border-bottom: 1px solid #E8E8E4;
     }
     .header-logo-wrap {
       flex-shrink: 0;
@@ -121,13 +122,13 @@
     #header-logo { height: 120px; width: auto; max-width: 280px; object-fit: contain; display: block; }
     #logo-placeholder {
       width: 160px; height: 120px;
-      border: 2px dashed rgba(255,255,255,0.35);
+      border: 2px dashed rgba(26,26,46,0.25);
       border-radius: 4px;
       display: none;
       align-items: center;
       justify-content: center;
       font-size: 11px;
-      color: rgba(255,255,255,0.45);
+      color: rgba(26,26,46,0.35);
       text-align: center;
       line-height: 1.3;
       padding: 6px;
@@ -137,7 +138,7 @@
     #logo-cliente-wrap {
       width: 80px;
       height: 55px;
-      border: 1.5px dashed rgba(255,255,255,0.38);
+      border: 1.5px dashed rgba(26,26,46,0.28);
       border-radius: 4px;
       background: transparent;
       display: flex;
@@ -148,7 +149,7 @@
       overflow: hidden;
       transition: border-color .2s;
     }
-    #logo-cliente-wrap:hover { border-color: rgba(255,255,255,0.7); }
+    #logo-cliente-wrap:hover { border-color: rgba(26,26,46,0.6); }
     #file-cliente-input { display: none; }
     #logo-cliente-img {
       width: 100%;
@@ -159,7 +160,7 @@
     }
     #logo-cliente-ph {
       font-size: 9.5px;
-      color: rgba(255,255,255,0.4);
+      color: rgba(26,26,46,0.35);
       text-align: center;
       line-height: 1.35;
       pointer-events: none;
@@ -178,14 +179,14 @@
     }
     .header-direccion {
       font-size: 11px;
-      color: rgba(255,255,255,0.65);
+      color: #4A4A4A;
       margin-top: 3px;
       margin-bottom: 2px;
       letter-spacing: .2px;
     }
     .header-contacto {
       font-size: 12px;
-      color: rgba(255,255,255,0.75);
+      color: #4A4A4A;
       margin-bottom: 14px;
     }
     .header-contacto .sep-contacto {
@@ -195,8 +196,9 @@
     }
     .header-badge-diag {
       display: inline-block;
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.28);
+      background: transparent;
+      border: 1px solid #1A1A2E;
+      color: #1A1A2E;
       padding: 4px 14px;
       border-radius: 3px;
       font-size: 11.5px;
@@ -210,14 +212,14 @@
       align-items: center;
       gap: 10px;
       font-size: 12px;
-      color: rgba(255,255,255,0.8);
+      color: #1A1A2E;
     }
     .ce-header {
-      background: rgba(255,255,255,0.14);
-      border: 1px dashed rgba(255,255,255,0.4);
+      background: #FAFAF7;
+      border: 1px dashed #1A1A2E;
       border-radius: 3px;
       padding: 3px 9px;
-      color: white;
+      color: #1A1A2E;
       font-family: 'Lato', sans-serif;
       font-size: 12px;
       font-weight: 700;
@@ -225,13 +227,13 @@
       text-align: center;
       outline: none;
     }
-    .ce-header:focus { background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.75); }
+    .ce-header:focus { background: #F0F0EB; border-color: #1A1A2E; border-style: solid; }
     .ce-header:empty::before {
       content: attr(data-ph);
-      color: rgba(255,255,255,0.38);
+      color: rgba(26,26,46,0.35);
       font-weight: 400;
     }
-    .header-meta-pipe { color: rgba(255,255,255,0.3); }
+    .header-meta-pipe { color: rgba(26,26,46,0.25); }
 
     /* ── Barra cliente ─────────────────────────────── */
     .doc-cliente-bar {
@@ -531,16 +533,21 @@
       #logo-cliente-wrap.loaded #logo-cliente-ph { display: none !important; }
 
       /* ── Encabezado ── */
-      .doc-header { padding: 14px 20px !important; }
+      .doc-header {
+        padding: 14px 20px !important;
+        background: #FAFAF7 !important;
+        color: #1A1A2E !important;
+        border-bottom: 1px solid #E8E8E4 !important;
+      }
       #header-logo { height: 60px !important; width: auto !important; max-width: 180px !important; }
       #logo-placeholder { height: 60px !important; max-width: 180px !important; }
-      .header-estudio-nombre { font-size: 15px !important; padding-bottom: 4px !important; border-bottom-color: var(--acento) !important; }
-      .header-direccion { font-size: 10px !important; }
-      .header-contacto { font-size: 10px !important; margin-bottom: 10px !important; }
+      .header-estudio-nombre { font-size: 15px !important; color: #1A1A2E !important; padding-bottom: 4px !important; border-bottom-color: var(--acento) !important; }
+      .header-direccion { font-size: 10px !important; color: #4A4A4A !important; }
+      .header-contacto { font-size: 10px !important; color: #4A4A4A !important; margin-bottom: 10px !important; }
       .sep-contacto { color: var(--acento) !important; }
-      .header-badge-diag { font-size: 10px !important; padding: 3px 10px !important; margin-bottom: 5px !important; }
-      .header-meta-row { font-size: 10px !important; }
-      .ce-header { font-size: 10px !important; }
+      .header-badge-diag { font-size: 10px !important; padding: 3px 10px !important; margin-bottom: 5px !important; background: transparent !important; border-color: #1A1A2E !important; color: #1A1A2E !important; }
+      .header-meta-row { font-size: 10px !important; color: #1A1A2E !important; }
+      .ce-header { font-size: 10px !important; background: #FAFAF7 !important; color: #1A1A2E !important; }
 
       /* ── Barra cliente ── */
       .doc-cliente-bar {
