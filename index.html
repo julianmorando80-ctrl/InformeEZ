@@ -789,11 +789,6 @@
     </div>
     <div class="chip-sep"></div>
     <div class="chip">
-      <span class="chip-lbl">Responsable</span>
-      <span class="chip-val" id="chip-resp">—</span>
-    </div>
-    <div class="chip-sep"></div>
-    <div class="chip">
       <span class="chip-lbl">Cierre Ejercicio</span>
       <span class="chip-val" id="chip-cierre">—</span>
     </div>
@@ -921,14 +916,6 @@ const ESTUDIO = {
 };
 // ─────────────────────────────────────────────────────
 
-// Columnas de la hoja "🏢 Clientes" (índice 0-based, datos desde fila 3)
-// A=0  Razón Social          B=1  CUIT
-// C=2  Categoría Fiscal      D=3  Responsable Asignado
-// E=4  Cierre de Ejercicio   F=5  Próximo Anticipo Gs.
-// G=6  Última Comunicación   H=7  Estado Comunicación
-// I=8  Diagnóstico Fiscal    J=9  Cuenta Corriente
-// K=10 Anticipos Ganancias   L=11 Observaciones
-
 let clientes = [];
 
 /* ── Init ──────────────────────────────────────────── */
@@ -978,28 +965,34 @@ document.getElementById('file-input').addEventListener('change', function(e) {
 
       const ws = wb.Sheets[sheetName];
 
-      // Leer como array de arrays. Estructura del archivo:
-      //   Fila 1 (índice 0): posible título / encabezado general
-      //   Fila 2 (índice 1): encabezados de columna
-      //   Fila 3+ (índice 2+): datos de clientes
+      // Fila 1 (índice 0): título general — ignorar
+      // Fila 2 (índice 1): encabezados reales → mapear por nombre
+      // Fila 3+ (índice 2+): datos de clientes
       const raw = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' });
 
+      const headers = raw[1] || [];
+      const col = {};
+      headers.forEach(function(h, i) { col[String(h).trim()] = i; });
+
+      const idxRS    = col['Razón Social']        ?? col['Razon Social']     ?? 0;
+      const idxCUIT  = col['CUIT']                ?? 1;
+      const idxCond  = col['Condicion Fiscal']    ?? col['Condición Fiscal'] ?? 2;
+      const idxCierr = col['Cierre de Ejercicio'] ?? 3;
+      const idxCC    = col['Cuenta Corriente']    ?? col['Saldo']            ?? -1;
+      const idxObs   = col['Observaciones']       ?? -1;
+      const idxDiag  = col['Diagnóstico Fiscal']  ?? col['Diagnostico Fiscal'] ?? -1;
+
       const rows = raw.slice(2)
-        .filter(function(row) { return str(row[0]); })
+        .filter(function(row) { return str(row[idxRS]); })
         .map(function(row) {
           return {
-            razon_social:        str(row[0]),
-            cuit:                str(row[1]),
-            categoria_fiscal:    str(row[2]),
-            responsable:         str(row[3]),
-            cierre_ejercicio:    str(row[4]),
-            proximo_anticipo:    row[5],      // fecha (puede ser Date o string)
-            ultima_comunicacion: str(row[6]),
-            estado_comunicacion: str(row[7]),
-            diagnostico_fiscal:  str(row[8]),
-            cuenta_corriente:    row[9],      // número
-            anticipos_ganancias: str(row[10]),
-            observaciones:       str(row[11])
+            razon_social:       str(row[idxRS]),
+            cuit:               str(row[idxCUIT]),
+            condicion_fiscal:   str(row[idxCond]),
+            cierre_ejercicio:   str(row[idxCierr]),
+            cuenta_corriente:   idxCC   >= 0 ? row[idxCC]       : '',
+            observaciones:      idxObs  >= 0 ? str(row[idxObs]) : '',
+            diagnostico_fiscal: idxDiag >= 0 ? str(row[idxDiag]): ''
           };
         });
 
@@ -1063,8 +1056,7 @@ function cargarCliente(c) {
   // Chips de encabezado
   setChip('chip-rs',    c.razon_social);
   setChip('chip-cuit',  c.cuit);
-  setChip('chip-cond',  c.categoria_fiscal);
-  setChip('chip-resp',  c.responsable);
+  setChip('chip-cond',  c.condicion_fiscal);
   setChip('chip-cierre',c.cierre_ejercicio);
 
   // Reiniciar tablas de rendición con filas en blanco
