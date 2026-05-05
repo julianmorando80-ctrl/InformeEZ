@@ -288,15 +288,11 @@
     }
     .inp-concepto { width: 100%; min-width: 140px; }
     .inp-anio     { width: 64px; text-align: center; }
-    .inp-importe  { width: 110px; text-align: right; }
+    .inp-importe  { width: 140px; text-align: right; }
     .inp-concepto:focus, .inp-anio:focus, .inp-importe:focus {
       background: rgba(21,101,192,.05);
       border-radius: 2px;
     }
-    /* ocultar flechas del input number */
-    .inp-importe::-webkit-inner-spin-button,
-    .inp-importe::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-    .inp-importe { -moz-appearance: textfield; }
 
     .celda-importe {
       display: flex;
@@ -306,20 +302,19 @@
     .prefijo-peso { color: var(--gris-texto); font-weight: 700; flex-shrink: 0; }
 
     .fila-total td {
-      padding: 10px 13px;
+      padding: 11px 13px;
       font-weight: 700;
-      border-top: 2px solid var(--azul-oscuro);
-      background: white;
+      background: #1A1A2E;
     }
     .fila-total .lbl-total {
       text-transform: uppercase;
       letter-spacing: .5px;
-      font-size: 10.5px;
-      color: var(--gris-texto);
+      font-size: 13px;
+      font-weight: 700;
+      color: white;
     }
-    .celda-total { font-size: 16px; }
-    .celda-total.al-dia    { color: var(--verde-medio); }
-    .celda-total.con-deuda { color: var(--rojo-medio); font-weight: 900; }
+    .celda-total { font-size: 18px; font-weight: 700; color: var(--acento); text-align: right; }
+    .celda-total.sin-deuda { color: var(--verde-medio); }
 
     .btn-agregar {
       margin-top: 8px;
@@ -472,22 +467,30 @@
     .tarj-cuenta.deuda-bg { background: var(--rojo-suave);  border-color: var(--rojo-medio); }
     .tarj-cuenta.favor-bg { background: var(--verde-suave); border-color: var(--verde-medio); }
     .cuenta-lbl {
-      font-size: 10.5px;
+      font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: .5px;
       color: var(--gris-texto);
       font-weight: 700;
       margin-bottom: 9px;
     }
     .cuenta-monto {
-      font-family: 'Playfair Display', serif;
-      font-size: 29px;
+      font-family: 'Lato', sans-serif;
+      font-size: 22px;
       font-weight: 700;
+      color: #1A1A2E;
     }
     .cuenta-monto.deuda  { color: var(--rojo-medio); }
     .cuenta-monto.favor  { color: var(--verde-medio); }
-    .cuenta-monto.neutro { color: var(--gris-texto); }
-    .cuenta-desc { font-size: 11.5px; margin-top: 5px; color: var(--gris-texto); }
+    .cuenta-monto.neutro { color: #1A1A2E; }
+    .cuenta-desc {
+      font-family: 'Lato', sans-serif;
+      font-size: 12px;
+      margin-top: 5px;
+      color: var(--gris-texto);
+    }
+    .tarj-cuenta.deuda-bg .cuenta-desc { color: var(--rojo-medio); }
+    .tarj-cuenta.favor-bg .cuenta-desc { color: var(--verde-medio); }
 
     /* ── Observaciones ───────────────────────────── */
     .caja-obs {
@@ -624,9 +627,10 @@
       .tabla-rendicion { font-size: 10px !important; }
       .tabla-rendicion thead th { padding: 5px 10px !important; font-size: 9px !important; }
       .tabla-rendicion tbody td { padding: 4px 8px !important; }
-      .fila-total td { padding: 7px 10px !important; }
-      .celda-total { font-size: 13px !important; }
-      .lbl-total { font-size: 9px !important; }
+      .fila-total td { padding: 8px 10px !important; background: #1A1A2E !important; }
+      .lbl-total { font-size: 10px !important; color: white !important; }
+      .celda-total { font-size: 14px !important; font-weight: 700 !important; color: #ff5757 !important; }
+      .celda-total.sin-deuda { color: #2E7D32 !important; }
       .inp-concepto, .inp-anio, .inp-importe {
         font-size: 10px !important;
         border: none !important;
@@ -636,9 +640,11 @@
       /* ── Cuenta corriente ── */
       .grid-cuenta { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
       .tarj-cuenta { padding: 12px !important; }
-      .cuenta-lbl   { font-size: 9px !important; margin-bottom: 5px !important; }
-      .cuenta-monto { font-size: 18px !important; }
-      .cuenta-desc  { font-size: 9px !important; margin-top: 3px !important; }
+      .cuenta-lbl   { font-size: 9.5px !important; margin-bottom: 5px !important; }
+      .cuenta-monto { font-family: 'Lato', sans-serif !important; font-size: 16px !important; color: #1A1A2E !important; }
+      .cuenta-monto.deuda { color: var(--rojo-medio) !important; }
+      .cuenta-monto.favor { color: var(--verde-medio) !important; }
+      .cuenta-desc  { font-size: 10px !important; margin-top: 3px !important; }
 
       /* ── Observaciones ── */
       .caja-obs {
@@ -772,8 +778,8 @@
         <tbody id="tbody-impositiva"></tbody>
         <tfoot>
           <tr class="fila-total">
-            <td colspan="2"><span class="lbl-total">Total Impositivo</span></td>
-            <td class="celda-total" id="total-impositiva">$ 0</td>
+            <td colspan="2"><span class="lbl-total">Total Deuda Impositiva</span></td>
+            <td class="celda-total sin-deuda" id="total-impositiva">$ 0 — Sin deuda</td>
             <td class="no-print"></td>
           </tr>
         </tfoot>
@@ -798,8 +804,8 @@
         <tbody id="tbody-previsional"></tbody>
         <tfoot>
           <tr class="fila-total">
-            <td colspan="2"><span class="lbl-total">Total Previsional</span></td>
-            <td class="celda-total" id="total-previsional">$ 0</td>
+            <td colspan="2"><span class="lbl-total">Total Deuda Previsional</span></td>
+            <td class="celda-total sin-deuda" id="total-previsional">$ 0 — Sin deuda</td>
             <td class="no-print"></td>
           </tr>
         </tfoot>
@@ -1055,6 +1061,22 @@ function cargarCliente(c) {
 }
 
 /* ── Tablas editables ──────────────────────────────── */
+function parsearImporte(s) {
+  return parseFloat(String(s).replace(/\./g, '').replace(',', '.')) || 0;
+}
+
+function onFocusImporte(inp) {
+  const n = parsearImporte(inp.value);
+  inp.value = (inp.value.trim() === '' || n === 0) ? '' : String(n).replace('.', ',');
+}
+
+function onBlurImporte(inp, tbodyId, totalId) {
+  const n = parsearImporte(inp.value);
+  inp.value = (inp.value.trim() === '' || n === 0) ? '' :
+    n.toLocaleString('es-AR', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+  calcularTotal(tbodyId, totalId);
+}
+
 function crearFila(tbodyId, totalId) {
   const anioActual = new Date().getFullYear();
   const tr = document.createElement('tr');
@@ -1062,8 +1084,10 @@ function crearFila(tbodyId, totalId) {
     '<td><input class="inp-concepto" type="text" placeholder="Concepto..."></td>' +
     '<td><input class="inp-anio" type="text" placeholder="' + anioActual + '"></td>' +
     '<td><div class="celda-importe"><span class="prefijo-peso">$</span>' +
-      '<input class="inp-importe" type="number" placeholder="0" step="any" ' +
-      'oninput="calcularTotal(\'' + tbodyId + '\',\'' + totalId + '\')">' +
+      '<input class="inp-importe" type="text" placeholder="0" ' +
+      'onfocus="onFocusImporte(this)" ' +
+      'oninput="calcularTotal(\'' + tbodyId + '\',\'' + totalId + '\')" ' +
+      'onblur="onBlurImporte(this,\'' + tbodyId + '\',\'' + totalId + '\')">' +
     '</div></td>' +
     '<td class="no-print"><button class="btn-eliminar" ' +
       'onclick="eliminarFila(this,\'' + tbodyId + '\',\'' + totalId + '\')" ' +
@@ -1084,11 +1108,15 @@ function calcularTotal(tbodyId, totalId) {
   const totalEl = document.getElementById(totalId);
   let suma = 0;
   document.getElementById(tbodyId).querySelectorAll('.inp-importe').forEach(function(inp) {
-    const v = parseFloat(inp.value);
-    if (!isNaN(v)) suma += v;
+    suma += parsearImporte(inp.value);
   });
-  totalEl.textContent = '$ ' + suma.toLocaleString('es-AR', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
-  totalEl.className = 'celda-total ' + (suma < 0 ? 'con-deuda' : 'al-dia');
+  if (suma === 0) {
+    totalEl.textContent = '$ 0 — Sin deuda';
+    totalEl.className = 'celda-total sin-deuda';
+  } else {
+    totalEl.textContent = '$ ' + Math.abs(suma).toLocaleString('es-AR', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+    totalEl.className = 'celda-total con-deuda';
+  }
 }
 
 function initTablas() {
@@ -1107,8 +1135,10 @@ function initTablas() {
 function resetTablas() {
   document.getElementById('tbody-impositiva').innerHTML = '';
   document.getElementById('tbody-previsional').innerHTML = '';
-  document.getElementById('total-impositiva').textContent = '$ 0';
-  document.getElementById('total-previsional').textContent = '$ 0';
+  var ti = document.getElementById('total-impositiva');
+  var tp = document.getElementById('total-previsional');
+  ti.textContent = '$ 0 — Sin deuda'; ti.className = 'celda-total sin-deuda';
+  tp.textContent = '$ 0 — Sin deuda'; tp.className = 'celda-total sin-deuda';
   initTablas();
 }
 
