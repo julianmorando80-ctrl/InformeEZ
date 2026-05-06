@@ -830,7 +830,6 @@
           <div class="cuenta-monto" id="cc-saldo-monto">
             $ <span contenteditable="true" id="cc-saldo" class="ce-manual" data-ph="0"></span>
           </div>
-          <div class="cuenta-desc" id="cc-saldo-desc"></div>
         </div>
       </div>
     </div>
@@ -909,6 +908,10 @@ let clientes = [];
   document.getElementById('ftr-fecha').textContent  = fechaHoy;
 
   initTablas();
+
+  ['cc-honorarios', 'cc-saldo'].forEach(function(id) {
+    document.getElementById(id).addEventListener('input', function() { formatearCE(this); });
+  });
 })();
 
 function pad(n) { return String(n).padStart(2, '0'); }
@@ -1038,21 +1041,17 @@ function cargarCliente(c) {
 
   const montoEl = document.getElementById('cc-saldo-monto');
   const tarjEl  = document.getElementById('tarj-saldo');
-  const descEl  = document.getElementById('cc-saldo-desc');
   tarjEl.className  = 'tarj-cuenta';
   montoEl.className = 'cuenta-monto';
 
   if (saldo < 0) {
     tarjEl.classList.add('deuda-bg');
     montoEl.classList.add('deuda');
-    descEl.textContent = 'Saldo a favor del estudio (deuda del cliente)';
   } else if (saldo > 0) {
     tarjEl.classList.add('favor-bg');
     montoEl.classList.add('favor');
-    descEl.textContent = 'Saldo a favor del cliente';
   } else {
     montoEl.classList.add('neutro');
-    descEl.textContent = 'Al día';
   }
 
   // Observaciones: combinar "Diagnóstico Fiscal" (col I) + "Observaciones" (col L)
@@ -1068,6 +1067,37 @@ function parsearImporte(s) {
 function onFocusImporte(inp) {
   const n = parsearImporte(inp.value);
   inp.value = (inp.value.trim() === '' || n === 0) ? '' : String(n).replace('.', ',');
+}
+
+function onInputImporte(inp, tbodyId, totalId) {
+  const clean = inp.value.replace(/[^\d,]/g, '');
+  const parts = clean.split(',');
+  const n = parseInt(parts[0] || '', 10);
+  if (clean === '') {
+    inp.value = '';
+  } else if (parts.length === 1) {
+    inp.value = isNaN(n) ? '' : n.toLocaleString('es-AR');
+  } else {
+    inp.value = (isNaN(n) ? '0' : n.toLocaleString('es-AR')) + ',' + parts.slice(1).join('');
+  }
+  calcularTotal(tbodyId, totalId);
+}
+
+function formatearCE(el) {
+  const raw = el.textContent.replace(/[^\d,]/g, '');
+  if (!raw) return;
+  const parts = raw.split(',');
+  const n = parseInt(parts[0] || '', 10);
+  const formatted = (isNaN(n) ? '' : n.toLocaleString('es-AR')) +
+                    (parts.length > 1 ? ',' + parts[1] : '');
+  if (!formatted || el.textContent === formatted) return;
+  el.textContent = formatted;
+  const range = document.createRange();
+  const sel = window.getSelection();
+  range.selectNodeContents(el);
+  range.collapse(false);
+  sel.removeAllRanges();
+  sel.addRange(range);
 }
 
 function onBlurImporte(inp, tbodyId, totalId) {
@@ -1086,7 +1116,7 @@ function crearFila(tbodyId, totalId) {
     '<td><div class="celda-importe"><span class="prefijo-peso">$</span>' +
       '<input class="inp-importe" type="text" placeholder="0" ' +
       'onfocus="onFocusImporte(this)" ' +
-      'oninput="calcularTotal(\'' + tbodyId + '\',\'' + totalId + '\')" ' +
+      'oninput="onInputImporte(this,\'' + tbodyId + '\',\'' + totalId + '\')" ' +
       'onblur="onBlurImporte(this,\'' + tbodyId + '\',\'' + totalId + '\')">' +
     '</div></td>' +
     '<td class="no-print"><button class="btn-eliminar" ' +
