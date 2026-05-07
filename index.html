@@ -269,16 +269,6 @@
     }
     .caja-obs:empty::before { content: attr(data-ph); color: #bdbdbd; font-style: italic; pointer-events: none; }
 
-    /* ── Pie de página ───────────────────────────────── */
-    .doc-footer {
-      border-top: 1px solid var(--gris-borde); padding: 13px 36px;
-      display: flex; justify-content: space-between; align-items: center;
-      font-size: 11px; color: var(--gris-texto); background: #fafbfc;
-    }
-    .footer-nombre { font-weight: 700; color: var(--texto); margin-bottom: 2px; }
-    .footer-der { text-align: right; }
-    .footer-conf { font-weight: 600; color: var(--texto); margin-bottom: 2px; }
-
     /* ── Bienvenida ──────────────────────────────────── */
     #bienvenida { text-align: center; padding: 56px 32px; color: var(--gris-texto); }
     #bienvenida h3 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--azul-oscuro); margin-bottom: 10px; }
@@ -362,8 +352,8 @@
       /* ── Separador deuda ── */
       .separador-deuda { font-size: 8px !important; padding: 4px 0 3px !important; margin-bottom: 4px !important; color: var(--acento) !important; }
 
-      /* ── Bloques 2-3 lado a lado en impresión ── */
-      .bloques-2-3 { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 8px !important; align-items: start !important; }
+      /* ── Bloques 2-3 apilados verticalmente ── */
+      .bloques-2-3 { display: block !important; width: 100% !important; }
 
       /* ── Observaciones ── */
       .caja-obs {
@@ -371,10 +361,6 @@
         padding: 7px 10px !important; font-size: 9px !important; line-height: 1.35 !important;
         border-left-width: 3px !important; border-left-color: var(--acento) !important;
       }
-
-      /* ── Pie ── */
-      .doc-footer { margin-top: auto !important; padding: 6px 16px !important; font-size: 8px !important; }
-      .footer-nombre { font-size: 8.5px !important; }
 
       /* ── Campos editables sin bordes ── */
       .ce-excel, .ce-manual { border-bottom: none !important; background: none !important; padding: 0 !important; }
@@ -601,18 +587,6 @@
 
   </div><!-- /doc-body -->
 
-  <!-- PIE DE PÁGINA -->
-  <div class="doc-footer">
-    <div>
-      <div class="footer-nombre" id="ftr-nombre"></div>
-      <div id="ftr-contacto"></div>
-    </div>
-    <div class="footer-der">
-      <div class="footer-conf">Documento confidencial</div>
-      <div id="ftr-fecha"></div>
-    </div>
-  </div>
-
   </div><!-- /contenido-doc -->
 
   <!-- BIENVENIDA -->
@@ -643,10 +617,6 @@ let clientes = [];
   document.getElementById('hdr-direccion').textContent = ESTUDIO.direccion;
   document.getElementById('hdr-contacto').innerHTML =
     ESTUDIO.telefono + '<span class="sep-contacto">·</span>' + ESTUDIO.email;
-  document.getElementById('ftr-nombre').textContent   = ESTUDIO.nombre;
-  document.getElementById('ftr-contacto').textContent =
-    ESTUDIO.direccion + ' · ' + ESTUDIO.telefono + ' · ' + ESTUDIO.email;
-
   const logo = document.getElementById('header-logo');
   logo.src = ESTUDIO.logo;
   logo.onerror = function() {
@@ -659,7 +629,6 @@ let clientes = [];
   const fechaHoy = d + '/' + m + '/' + y;
   document.getElementById('ce-emision').textContent = fechaHoy;
   document.getElementById('ce-periodo').textContent = m + '/' + y;
-  document.getElementById('ftr-fecha').textContent  = fechaHoy;
 
   initTablas();
 })();
