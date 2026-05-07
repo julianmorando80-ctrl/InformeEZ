@@ -37,657 +37,350 @@
 
     /* ── Panel de control ──────────────────────────── */
     #panel-control {
-      position: sticky;
-      top: 0;
-      z-index: 200;
+      position: sticky; top: 0; z-index: 200;
       background: white;
       border-bottom: 3px solid var(--azul-medio);
       padding: 10px 28px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      display: flex; align-items: center; gap: 12px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
     .panel-marca {
       font-family: 'Playfair Display', serif;
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--azul-oscuro);
-      margin-right: 4px;
-      white-space: nowrap;
+      font-size: 14px; font-weight: 700;
+      color: var(--azul-oscuro); margin-right: 4px; white-space: nowrap;
     }
     .panel-sep { width: 1px; height: 28px; background: var(--gris-borde); }
     #file-input { display: none; }
     .btn-panel {
-      font-family: 'Lato', sans-serif;
-      font-size: 13px;
-      font-weight: 700;
-      padding: 7px 18px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: opacity .15s, transform .1s;
-      white-space: nowrap;
+      font-family: 'Lato', sans-serif; font-size: 13px; font-weight: 700;
+      padding: 7px 18px; border: none; border-radius: 5px;
+      cursor: pointer; transition: opacity .15s, transform .1s; white-space: nowrap;
     }
     .btn-panel:active { transform: scale(.97); }
-    #btn-cargar  { background: var(--azul-medio); color: white; }
-    #btn-pdf     { background: var(--azul-oscuro); color: white; }
-    #btn-cargar:hover { opacity: .88; }
-    #btn-pdf:hover    { opacity: .88; }
+    #btn-cargar { background: var(--azul-medio); color: white; }
+    #btn-pdf    { background: var(--azul-oscuro); color: white; }
+    #btn-cargar:hover, #btn-pdf:hover { opacity: .88; }
     #btn-pdf:disabled, #select-cliente:disabled { opacity: .38; cursor: not-allowed; }
     #select-cliente {
-      font-family: 'Lato', sans-serif;
-      font-size: 13px;
-      padding: 7px 12px;
-      border: 1.5px solid var(--gris-borde);
-      border-radius: 5px;
-      min-width: 260px;
-      max-width: 360px;
-      color: var(--texto);
-      background: white;
-      cursor: pointer;
+      font-family: 'Lato', sans-serif; font-size: 13px;
+      padding: 7px 12px; border: 1.5px solid var(--gris-borde); border-radius: 5px;
+      min-width: 260px; max-width: 360px; color: var(--texto); background: white; cursor: pointer;
     }
-    #panel-status {
-      margin-left: auto;
-      font-size: 12px;
-      color: var(--gris-texto);
-      white-space: nowrap;
-    }
+    #panel-status { margin-left: auto; font-size: 12px; color: var(--gris-texto); white-space: nowrap; }
 
     /* ── Documento ─────────────────────────────────── */
-    #documento {
-      max-width: 920px;
-      margin: 28px auto 60px;
-      background: white;
-      box-shadow: 0 6px 32px rgba(0,0,0,0.13);
-    }
+    #documento { max-width: 920px; margin: 28px auto 60px; background: white; box-shadow: 0 6px 32px rgba(0,0,0,0.13); }
 
     /* ── Encabezado ────────────────────────────────── */
     .doc-header {
-      background: #FAFAF7;
-      color: #1A1A2E;
+      background: #FAFAF7; color: #1A1A2E;
       padding: 28px 36px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 24px;
+      display: flex; justify-content: space-between; align-items: center; gap: 24px;
       border-bottom: 1px solid #E8E8E4;
     }
-    .header-logo-wrap {
-      flex-shrink: 0;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 16px;
-    }
+    .header-logo-wrap { flex-shrink: 0; display: flex; flex-direction: row; align-items: center; gap: 16px; }
     #header-logo { height: 120px; width: auto; max-width: 280px; object-fit: contain; display: block; }
     #logo-placeholder {
       width: 160px; height: 120px;
-      border: 2px dashed rgba(26,26,46,0.25);
-      border-radius: 4px;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      color: rgba(26,26,46,0.35);
-      text-align: center;
-      line-height: 1.3;
-      padding: 6px;
+      border: 2px dashed rgba(26,26,46,0.25); border-radius: 4px;
+      display: none; align-items: center; justify-content: center;
+      font-size: 11px; color: rgba(26,26,46,0.35); text-align: center; line-height: 1.3; padding: 6px;
     }
-
     .header-info { text-align: right; }
     .header-estudio-nombre {
-      font-family: 'Playfair Display', serif;
-      font-size: 21px;
-      font-weight: 700;
-      letter-spacing: .3px;
-      margin-bottom: 5px;
-      padding-bottom: 5px;
-      border-bottom: 1.5px solid var(--acento);
-      display: inline-block;
+      font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700;
+      letter-spacing: .3px; margin-bottom: 5px; padding-bottom: 5px;
+      border-bottom: 1.5px solid var(--acento); display: inline-block;
     }
-    .header-direccion {
-      font-size: 11px;
-      color: #4A4A4A;
-      margin-top: 3px;
-      margin-bottom: 2px;
-      letter-spacing: .2px;
-    }
-    .header-contacto {
-      font-size: 12px;
-      color: #4A4A4A;
-      margin-bottom: 14px;
-    }
-    .header-contacto .sep-contacto {
-      color: var(--acento);
-      font-weight: 700;
-      margin: 0 5px;
-    }
+    .header-direccion { font-size: 11px; color: #4A4A4A; margin-top: 3px; margin-bottom: 2px; letter-spacing: .2px; }
+    .header-contacto { font-size: 12px; color: #4A4A4A; margin-bottom: 14px; }
+    .header-contacto .sep-contacto { color: var(--acento); font-weight: 700; margin: 0 5px; }
     .header-badge-diag {
-      display: inline-block;
-      background: transparent;
-      border: 1px solid #1A1A2E;
-      color: #1A1A2E;
-      padding: 4px 14px;
-      border-radius: 3px;
-      font-size: 11.5px;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      margin-bottom: 8px;
+      display: inline-block; background: transparent; border: 1px solid #1A1A2E; color: #1A1A2E;
+      padding: 4px 14px; border-radius: 3px; font-size: 11.5px; letter-spacing: 2.5px;
+      text-transform: uppercase; margin-bottom: 8px;
     }
-    .header-meta-row {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      gap: 10px;
-      font-size: 12px;
-      color: #1A1A2E;
-    }
+    .header-meta-row { display: flex; justify-content: flex-end; align-items: center; gap: 10px; font-size: 12px; color: #1A1A2E; }
     .ce-header {
-      background: #FAFAF7;
-      border: 1px dashed #1A1A2E;
-      border-radius: 3px;
-      padding: 3px 9px;
-      color: #1A1A2E;
-      font-family: 'Lato', sans-serif;
-      font-size: 12px;
-      font-weight: 700;
-      min-width: 78px;
-      text-align: center;
-      outline: none;
+      background: #FAFAF7; border: 1px dashed #1A1A2E; border-radius: 3px;
+      padding: 3px 9px; color: #1A1A2E; font-family: 'Lato', sans-serif;
+      font-size: 12px; font-weight: 700; min-width: 78px; text-align: center; outline: none;
     }
     .ce-header:focus { background: #F0F0EB; border-color: #1A1A2E; border-style: solid; }
-    .ce-header:empty::before {
-      content: attr(data-ph);
-      color: rgba(26,26,46,0.35);
-      font-weight: 400;
-    }
+    .ce-header:empty::before { content: attr(data-ph); color: rgba(26,26,46,0.35); font-weight: 400; }
     .header-meta-pipe { color: rgba(26,26,46,0.25); }
 
     /* ── Barra cliente ─────────────────────────────── */
     .doc-cliente-bar {
-      background: var(--celeste-suave);
-      border-bottom: 2.5px solid var(--acento);
-      padding: 13px 36px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px 0;
-      align-items: center;
+      background: var(--celeste-suave); border-bottom: 2.5px solid var(--acento);
+      padding: 13px 36px; display: flex; flex-wrap: wrap; gap: 8px 0; align-items: center;
     }
     .chip { display: flex; flex-direction: column; padding: 0 16px 0 0; }
     .chip:first-child { padding-left: 0; }
-    .chip-lbl {
-      font-size: 9.5px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--gris-texto);
-      font-weight: 700;
-      margin-bottom: 1px;
-    }
-    .chip-val {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--texto);
-    }
+    .chip-lbl { font-size: 9.5px; text-transform: uppercase; letter-spacing: 1px; color: var(--gris-texto); font-weight: 700; margin-bottom: 1px; }
+    .chip-val { font-size: 13px; font-weight: 700; color: var(--texto); }
     .chip-sep { width: 1px; height: 32px; background: var(--azul-medio); opacity: .25; margin-right: 16px; }
 
     /* ── Cuerpo ────────────────────────────────────── */
-    .doc-body { padding: 36px 36px 28px; }
+    .doc-body { padding: 24px 36px 20px; }
 
     /* ── Sección ───────────────────────────────────── */
-    .seccion { margin-bottom: 36px; }
+    .seccion { margin-bottom: 20px; }
     .seccion-titulo {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      margin-bottom: 14px;
-      padding-bottom: 6px;
+      display: flex; align-items: center; gap: 9px;
+      margin-bottom: 10px; padding-bottom: 5px;
       border-bottom: 2px solid var(--acento);
     }
     .seccion-icono { display: none; }
     .seccion-titulo h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 18.5px;
-      font-weight: 600;
-      color: var(--azul-oscuro);
-      letter-spacing: .2px;
+      font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 600;
+      color: var(--azul-oscuro); letter-spacing: .2px;
     }
 
-    /* ── Tabla de rendición (impositiva / previsional) ── */
-    .tabla-rendicion {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
+    /* ── Tabla Resumen del Período ──────────────────── */
+    .tabla-resumen { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .tabla-resumen thead tr { background: var(--azul-oscuro); color: white; }
+    .tabla-resumen thead th {
+      padding: 8px 12px; text-align: right;
+      font-weight: 700; font-size: 11px; letter-spacing: .6px; text-transform: uppercase;
     }
+    .tabla-resumen thead th:first-child { text-align: left; }
+    .tabla-resumen tbody tr:nth-child(odd)  { background: white; }
+    .tabla-resumen tbody tr:nth-child(even) { background: var(--celeste-suave); }
+    .tabla-resumen tbody td {
+      padding: 7px 12px; border-bottom: 1px solid var(--gris-borde);
+      vertical-align: middle; text-align: right; font-size: 13px;
+    }
+    .tabla-resumen tbody td:first-child { text-align: left; font-weight: 700; }
+    .fila-contrib td {
+      background: #1A1A2E !important; border-bottom: none !important; padding: 9px 12px; text-align: right;
+    }
+    .fila-contrib td:first-child {
+      text-align: left; color: white; font-size: 11px;
+      text-transform: uppercase; letter-spacing: .5px; font-weight: 700;
+    }
+    .inp-resumen {
+      font-family: 'Lato', sans-serif; font-size: 13px;
+      border: none; background: transparent; outline: none; color: var(--texto);
+      width: 130px; text-align: right;
+    }
+    .inp-resumen:focus { background: rgba(21,101,192,.05); border-radius: 2px; }
+    .celda-auto { text-align: right !important; font-weight: 700; }
+    .val-positivo { color: #2E7D32 !important; }
+    .val-negativo { color: var(--acento) !important; }
+
+    /* ── Tabla de rendición (deuda / liquidaciones) ── */
+    .tabla-rendicion { width: 100%; border-collapse: collapse; font-size: 13px; }
     .tabla-rendicion thead tr { background: var(--azul-oscuro); color: white; }
     .tabla-rendicion thead th {
-      padding: 9px 13px;
-      text-align: left;
-      font-weight: 700;
-      font-size: 11px;
-      letter-spacing: .6px;
-      text-transform: uppercase;
+      padding: 8px 12px; text-align: left; font-weight: 700;
+      font-size: 11px; letter-spacing: .6px; text-transform: uppercase;
     }
     .tabla-rendicion thead th:last-child { width: 36px; }
     .tabla-rendicion tbody tr:nth-child(even) { background: var(--celeste-suave); }
     .tabla-rendicion tbody tr:nth-child(odd)  { background: white; }
     .tabla-rendicion tbody td {
-      padding: 5px 10px;
-      border-bottom: 1px solid var(--gris-borde);
-      vertical-align: middle;
+      padding: 5px 10px; border-bottom: 1px solid var(--gris-borde); vertical-align: middle;
     }
     .tabla-rendicion tbody tr:last-child td { border-bottom: none; }
 
     .inp-concepto, .inp-anio, .inp-importe {
-      font-family: 'Lato', sans-serif;
-      font-size: 13px;
-      border: none;
-      background: transparent;
-      outline: none;
-      color: var(--texto);
+      font-family: 'Lato', sans-serif; font-size: 13px;
+      border: none; background: transparent; outline: none; color: var(--texto);
     }
-    .inp-concepto { width: 100%; min-width: 140px; }
-    .inp-anio     { width: 64px; text-align: center; }
-    .inp-importe  { width: 140px; text-align: right; }
-    .inp-concepto:focus, .inp-anio:focus, .inp-importe:focus {
-      background: rgba(21,101,192,.05);
-      border-radius: 2px;
-    }
+    .inp-concepto { width: 100%; min-width: 120px; }
+    .inp-anio     { width: 60px; text-align: center; }
+    .inp-importe  { width: 130px; text-align: right; }
+    .inp-concepto:focus, .inp-anio:focus, .inp-importe:focus { background: rgba(21,101,192,.05); border-radius: 2px; }
 
-    .celda-importe {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .prefijo-peso { color: var(--gris-texto); font-weight: 700; flex-shrink: 0; }
+    .celda-importe { display: flex; align-items: center; gap: 4px; }
+    .prefijo-peso  { color: var(--gris-texto); font-weight: 700; flex-shrink: 0; }
 
-    .fila-total td {
-      padding: 11px 13px;
-      font-weight: 700;
-      background: #1A1A2E;
-    }
-    .fila-total .lbl-total {
-      text-transform: uppercase;
-      letter-spacing: .5px;
-      font-size: 13px;
-      font-weight: 700;
-      color: white;
-    }
-    .celda-total { font-size: 18px; font-weight: 700; color: var(--acento); text-align: right; }
+    /* ── Fila total — Deuda (fondo oscuro, importe rojo) */
+    .fila-total td { padding: 10px 13px; font-weight: 700; background: #1A1A2E; }
+    .fila-total .lbl-total { text-transform: uppercase; letter-spacing: .5px; font-size: 12px; font-weight: 700; color: white; }
+    .celda-total { font-size: 17px; font-weight: 700; color: var(--acento); text-align: right; }
     .celda-total.sin-deuda { color: #4CAF50; }
 
+    /* ── Fila total — Liquidaciones (fondo azul, importe blanco) */
+    .fila-total-liq td { padding: 10px 13px; font-weight: 700; background: var(--azul-medio); }
+    .fila-total-liq .lbl-total { text-transform: uppercase; letter-spacing: .5px; font-size: 12px; font-weight: 700; color: white; }
+    .celda-total-liq { font-size: 17px; font-weight: 700; color: white; text-align: right; }
+
+    /* ── Liquidaciones del Período ──────────────────── */
+    .bloque-liquidaciones {
+      background: var(--celeste-suave); border-radius: 6px;
+      padding: 16px 18px 12px; margin-bottom: 12px;
+    }
+    .bloque-liquidaciones .seccion-titulo { border-bottom-color: var(--azul-medio); }
+    .subtitulo-liq {
+      font-family: 'Lato', sans-serif; font-size: 11.5px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .6px; color: var(--azul-medio);
+      margin-bottom: 6px; padding-bottom: 4px;
+      border-bottom: 1px solid rgba(21,101,192,.3);
+    }
+
+    /* ── Separador Deuda Acumulada ──────────────────── */
+    .separador-deuda {
+      text-align: center; font-size: 10px; font-weight: 700;
+      letter-spacing: 2.5px; text-transform: uppercase; color: var(--acento);
+      padding: 8px 0 6px; border-top: 1px dashed var(--acento); margin-bottom: 10px;
+    }
+
+    /* ── Layout Bloques 2 y 3 ───────────────────────── */
+    .bloques-2-3 { display: flex; flex-direction: column; }
+
+    /* ── Botones ────────────────────────────────────── */
     .btn-agregar {
-      margin-top: 8px;
-      font-family: 'Lato', sans-serif;
-      font-size: 12px;
-      font-weight: 700;
-      padding: 5px 14px;
-      border: 1.5px solid var(--azul-medio);
-      border-radius: 4px;
-      background: white;
-      color: var(--azul-medio);
-      cursor: pointer;
-      transition: background .15s;
+      margin-top: 6px; font-family: 'Lato', sans-serif; font-size: 12px; font-weight: 700;
+      padding: 4px 12px; border: 1.5px solid var(--azul-medio); border-radius: 4px;
+      background: white; color: var(--azul-medio); cursor: pointer; transition: background .15s;
     }
     .btn-agregar:hover { background: var(--celeste-suave); }
-
     .btn-eliminar {
-      font-size: 15px;
-      font-weight: 700;
-      width: 26px;
-      height: 26px;
-      border: none;
-      border-radius: 50%;
-      background: transparent;
-      color: var(--gris-texto);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      line-height: 1;
-      margin: 0 auto;
-      transition: background .15s, color .15s;
+      font-size: 15px; font-weight: 700; width: 26px; height: 26px;
+      border: none; border-radius: 50%; background: transparent; color: var(--gris-texto);
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      line-height: 1; margin: 0 auto; transition: background .15s, color .15s;
     }
     .btn-eliminar:hover { background: var(--rojo-suave); color: var(--rojo-medio); }
 
     .no-print { /* oculto en @media print */ }
 
-    /* ── Select de estado ─────────────────────────── */
-    .sel-estado {
-      font-family: 'Lato', sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 14px;
-      border: none;
-      cursor: pointer;
-      outline: none;
-      appearance: none;
-      -webkit-appearance: none;
-      text-align: center;
-      min-width: 104px;
-    }
-    .sel-estado.presentado   { background: var(--verde-suave);  color: var(--verde-medio); }
-    .sel-estado.en-curso     { background: var(--celeste-suave); color: var(--azul-medio); }
-    .sel-estado.pendiente    { background: var(--amarillo);      color: #92400e; }
-    .sel-estado.sin-presentar{ background: var(--rojo-suave);   color: var(--rojo-medio); }
-
-    /* badge visible solo en impresión */
-    .badge-estado {
-      display: none;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 14px;
-      min-width: 104px;
-      text-align: center;
-    }
-    .badge-estado.presentado   { background: var(--verde-suave);  color: var(--verde-medio); }
-    .badge-estado.en-curso     { background: var(--celeste-suave); color: var(--azul-medio); }
-    .badge-estado.pendiente    { background: var(--amarillo);      color: #92400e; }
-    .badge-estado.sin-presentar{ background: var(--rojo-suave);   color: var(--rojo-medio); }
-
-    /* ── Campos editables (pantalla) ─────────────── */
+    /* ── Campos editables ────────────────────────────── */
     [contenteditable] { outline: none; }
-
     .ce-excel {
-      display: inline-block;
-      padding: 2px 4px;
-      border-bottom: 1.5px dashed var(--azul-medio);
-      min-width: 50px;
-      border-radius: 2px 2px 0 0;
+      display: inline-block; padding: 2px 4px;
+      border-bottom: 1.5px dashed var(--azul-medio); min-width: 50px; border-radius: 2px 2px 0 0;
     }
     .ce-excel:focus { background: rgba(21,101,192,.06); border-bottom-color: var(--azul-oscuro); }
-
     .ce-manual {
-      display: inline-block;
-      padding: 2px 4px;
-      border-bottom: 1.5px dashed var(--rojo-medio);
-      min-width: 70px;
-      border-radius: 2px 2px 0 0;
+      display: inline-block; padding: 2px 4px;
+      border-bottom: 1.5px dashed var(--rojo-medio); min-width: 70px; border-radius: 2px 2px 0 0;
     }
     .ce-manual:focus { background: rgba(198,40,40,.04); border-bottom-color: var(--rojo-medio); }
-    .ce-manual:empty::before {
-      content: attr(data-ph);
-      color: #bdbdbd;
-      font-style: italic;
-      font-size: .92em;
-      pointer-events: none;
-    }
+    .ce-manual:empty::before { content: attr(data-ph); color: #bdbdbd; font-style: italic; font-size: .92em; pointer-events: none; }
 
-    /* ── Grid previsional ────────────────────────── */
-    .grid-prev {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    .tarj-prev {
-      border: 1px solid var(--gris-borde);
-      border-left: 4px solid var(--azul-medio);
-      border-radius: 5px;
-      padding: 13px 16px;
-      background: white;
-    }
-    .tarj-lbl {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: .9px;
-      color: var(--gris-texto);
-      font-weight: 700;
-      margin-bottom: 5px;
-    }
-    .tarj-val { font-size: 15px; font-weight: 700; color: var(--texto); }
-
-    /* ── Grid vencimientos ───────────────────────── */
-    .grid-venc { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; }
-    .tarj-venc {
-      border-radius: 6px;
-      padding: 14px 16px;
-      border-width: 1.5px;
-      border-style: solid;
-    }
-    .tarj-venc.urgente  { background: var(--rojo-suave);    border-color: var(--rojo-medio); }
-    .tarj-venc.proximo  { background: var(--amarillo);      border-color: var(--amarillo-borde); }
-    .tarj-venc.ok       { background: var(--celeste-suave); border-color: var(--azul-medio); }
-    .venc-nombre { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .7px; margin-bottom: 5px; }
-    .venc-fecha  { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 700; }
-    .venc-dias   { font-size: 11px; margin-top: 3px; opacity: .8; }
-    .urgente  .venc-nombre, .urgente  .venc-fecha, .urgente  .venc-dias  { color: var(--rojo-medio); }
-    .proximo  .venc-nombre, .proximo  .venc-fecha, .proximo  .venc-dias  { color: #92400e; }
-    .ok       .venc-nombre, .ok       .venc-fecha, .ok       .venc-dias  { color: var(--azul-medio); }
-
-    /* ── Cuenta corriente ────────────────────────── */
-    .grid-cuenta { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .tarj-cuenta {
-      border-radius: 7px;
-      padding: 22px 26px;
-      border: 1.5px solid var(--gris-borde);
-      background: white;
-    }
-    .tarj-cuenta.deuda-bg { background: var(--rojo-suave);  border-color: var(--rojo-medio); }
-    .tarj-cuenta.favor-bg { background: var(--verde-suave); border-color: var(--verde-medio); }
-    .cuenta-lbl {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: .5px;
-      color: var(--gris-texto);
-      font-weight: 700;
-      margin-bottom: 9px;
-    }
-    .cuenta-monto {
-      font-family: 'Lato', sans-serif;
-      font-size: 22px;
-      font-weight: 700;
-      color: #1A1A2E;
-    }
-    .cuenta-monto.deuda  { color: var(--rojo-medio); }
-    .cuenta-monto.favor  { color: var(--verde-medio); }
-    .cuenta-monto.neutro { color: #1A1A2E; }
-    .cuenta-desc {
-      font-family: 'Lato', sans-serif;
-      font-size: 12px;
-      margin-top: 5px;
-      color: var(--gris-texto);
-    }
-    .tarj-cuenta.deuda-bg .cuenta-desc { color: var(--rojo-medio); }
-    .tarj-cuenta.favor-bg .cuenta-desc { color: var(--verde-medio); }
-
-    /* ── Observaciones ───────────────────────────── */
+    /* ── Observaciones ───────────────────────────────── */
     .caja-obs {
-      background: var(--amarillo);
-      border-left: 5px solid var(--acento);
-      border-radius: 0 5px 5px 0;
-      padding: 18px 22px;
-      min-height: 110px;
-      font-size: 13px;
-      line-height: 1.65;
-      width: 100%;
-      white-space: pre-wrap;
+      background: var(--amarillo); border-left: 5px solid var(--acento);
+      border-radius: 0 5px 5px 0; padding: 16px 20px; min-height: 90px;
+      font-size: 13px; line-height: 1.6; width: 100%; white-space: pre-wrap;
     }
-    .caja-obs:empty::before {
-      content: attr(data-ph);
-      color: #bdbdbd;
-      font-style: italic;
-      pointer-events: none;
-    }
+    .caja-obs:empty::before { content: attr(data-ph); color: #bdbdbd; font-style: italic; pointer-events: none; }
 
-    /* ── Pie de página ───────────────────────────── */
+    /* ── Pie de página ───────────────────────────────── */
     .doc-footer {
-      border-top: 1px solid var(--gris-borde);
-      padding: 15px 36px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 11px;
-      color: var(--gris-texto);
-      background: #fafbfc;
+      border-top: 1px solid var(--gris-borde); padding: 13px 36px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 11px; color: var(--gris-texto); background: #fafbfc;
     }
     .footer-nombre { font-weight: 700; color: var(--texto); margin-bottom: 2px; }
     .footer-der { text-align: right; }
     .footer-conf { font-weight: 600; color: var(--texto); margin-bottom: 2px; }
 
-    /* ── Mensaje de bienvenida ───────────────────── */
-    #bienvenida {
-      text-align: center;
-      padding: 56px 32px;
-      color: var(--gris-texto);
-    }
-    #bienvenida h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 20px;
-      color: var(--azul-oscuro);
-      margin-bottom: 10px;
-    }
-    #bienvenida p { font-size: 13px; max-width: 420px; margin: 0 auto; }
+    /* ── Bienvenida ──────────────────────────────────── */
+    #bienvenida { text-align: center; padding: 56px 32px; color: var(--gris-texto); }
+    #bienvenida h3 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--azul-oscuro); margin-bottom: 10px; }
+    #bienvenida p  { font-size: 13px; max-width: 420px; margin: 0 auto; }
     #contenido-doc { display: none; }
 
-    /* ── Print ───────────────────────────────────── */
+    /* ── Print ───────────────────────────────────────── */
     @media print {
-      @page { size: A4 portrait; margin: 10mm 12mm; }
+      @page { size: A4 portrait; margin: 8mm 10mm; }
 
-      html {
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-      }
-
-      body {
-        background: white;
-        font-size: 11px;
-        line-height: 1.4;
-      }
-
-      #panel-control { display: none !important; }
-
-      #documento {
-        width: 100%;
-        max-width: 100%;
-        margin: 0;
-        box-shadow: none;
-      }
-
-      /* Contenedor principal como columna flex para anclar el footer */
-      #contenido-doc {
-        display: flex !important;
-        flex-direction: column;
-        min-height: calc(297mm - 20mm);
-        width: 100%;
-      }
-
-      .doc-body {
-        flex: 1;
-        padding: 12px 20px !important;
-      }
-
-      #bienvenida { display: none !important; }
-
-      /* ── Colores de fondo ── */
+      html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 
-      /* ── Encabezado ── */
-      .doc-header {
-        padding: 14px 20px !important;
-        background: #FAFAF7 !important;
-        color: #1A1A2E !important;
-        border-bottom: 1px solid #E8E8E4 !important;
+      body { background: white; font-size: 9.5px; line-height: 1.35; }
+
+      #panel-control { display: none !important; }
+      #documento     { width: 100%; max-width: 100%; margin: 0; box-shadow: none; }
+
+      #contenido-doc {
+        display: flex !important; flex-direction: column;
+        min-height: calc(297mm - 16mm); width: 100%;
       }
-      #header-logo { height: 60px !important; width: auto !important; max-width: 180px !important; }
-      #logo-placeholder { height: 60px !important; max-width: 180px !important; }
-      .header-estudio-nombre { font-size: 15px !important; color: #1A1A2E !important; padding-bottom: 4px !important; border-bottom-color: var(--acento) !important; }
-      .header-direccion { font-size: 10px !important; color: #4A4A4A !important; }
-      .header-contacto { font-size: 10px !important; color: #4A4A4A !important; margin-bottom: 10px !important; }
+      .doc-body { flex: 1; padding: 8px 16px !important; }
+      #bienvenida { display: none !important; }
+
+      /* ── Encabezado ── */
+      .doc-header { padding: 10px 16px !important; background: #FAFAF7 !important; border-bottom: 1px solid #E8E8E4 !important; }
+      #header-logo { height: 50px !important; width: auto !important; max-width: 150px !important; }
+      .header-estudio-nombre { font-size: 13px !important; }
+      .header-direccion, .header-contacto { font-size: 9px !important; }
+      .header-contacto { margin-bottom: 7px !important; }
       .sep-contacto { color: var(--acento) !important; }
-      .header-badge-diag { font-size: 10px !important; padding: 3px 10px !important; margin-bottom: 5px !important; background: transparent !important; border-color: #1A1A2E !important; color: #1A1A2E !important; }
-      .header-meta-row { font-size: 10px !important; color: #1A1A2E !important; }
-      .ce-header { font-size: 10px !important; background: #FAFAF7 !important; color: #1A1A2E !important; }
+      .header-badge-diag { font-size: 9px !important; padding: 2px 8px !important; margin-bottom: 4px !important; }
+      .header-meta-row { font-size: 9px !important; }
+      .ce-header { font-size: 9px !important; background: #FAFAF7 !important; }
 
       /* ── Barra cliente ── */
-      .doc-cliente-bar {
-        padding: 8px 20px !important;
-        border-bottom-color: var(--acento) !important;
-      }
-      .chip-lbl { font-size: 8px !important; }
-      .chip-val { font-size: 11px !important; }
-      .chip { padding: 0 12px 0 0 !important; }
-      .chip-sep { height: 24px !important; margin-right: 12px !important; }
+      .doc-cliente-bar { padding: 6px 16px !important; }
+      .chip-lbl { font-size: 7px !important; }
+      .chip-val { font-size: 10px !important; }
+      .chip { padding: 0 10px 0 0 !important; }
+      .chip-sep { height: 20px !important; margin-right: 10px !important; }
 
       /* ── Secciones ── */
-      .seccion { margin-bottom: 8px !important; page-break-inside: avoid !important; }
-      .seccion-titulo {
-        margin-bottom: 5px !important;
-        padding-bottom: 3px !important;
-        gap: 6px !important;
-        border-bottom-color: var(--acento) !important;
-      }
-      .seccion-titulo h2 { font-size: 13px !important; }
+      .seccion { margin-bottom: 4px !important; page-break-inside: avoid !important; }
+      .seccion-titulo { margin-bottom: 3px !important; padding-bottom: 2px !important; border-bottom-color: var(--acento) !important; }
+      .seccion-titulo h2 { font-size: 11px !important; }
 
-      /* ── No-print elements ── */
+      /* ── No-print ── */
       .no-print { display: none !important; }
 
-      /* ── Tabla de rendición ── */
-      .tabla-rendicion { font-size: 10px !important; }
-      .tabla-rendicion thead th { padding: 5px 10px !important; font-size: 9px !important; }
-      .tabla-rendicion tbody td { padding: 4px 8px !important; }
-      .fila-total td { padding: 8px 10px !important; background: #1A1A2E !important; }
-      .lbl-total { font-size: 10px !important; color: white !important; }
-      .celda-total { font-size: 14px !important; font-weight: 700 !important; color: #ff5757 !important; }
-      .celda-total.sin-deuda { color: #4CAF50 !important; }
-      .inp-concepto, .inp-anio, .inp-importe {
-        font-size: 10px !important;
-        border: none !important;
-        background: transparent !important;
-      }
+      /* ── Tabla resumen ── */
+      .tabla-resumen { font-size: 9px !important; }
+      .tabla-resumen thead th { padding: 4px 8px !important; font-size: 8px !important; }
+      .tabla-resumen tbody td { padding: 3px 8px !important; min-height: 16px !important; }
+      .fila-contrib td { padding: 5px 8px !important; background: #1A1A2E !important; }
+      .inp-resumen { font-size: 9px !important; width: 90px !important; }
 
-      /* ── Cuenta corriente ── */
-      .grid-cuenta { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
-      .tarj-cuenta { padding: 12px !important; }
-      .cuenta-lbl   { font-size: 9.5px !important; margin-bottom: 5px !important; }
-      .cuenta-monto { font-family: 'Lato', sans-serif !important; font-size: 16px !important; color: #1A1A2E !important; }
-      .cuenta-monto.deuda { color: var(--rojo-medio) !important; }
-      .cuenta-monto.favor { color: var(--verde-medio) !important; }
-      .cuenta-desc  { font-size: 10px !important; margin-top: 3px !important; }
+      /* ── Tablas de rendición ── */
+      .tabla-rendicion { font-size: 9px !important; }
+      .tabla-rendicion thead th { padding: 4px 8px !important; font-size: 8px !important; }
+      .tabla-rendicion tbody td { padding: 3px 7px !important; min-height: 16px !important; }
+      .inp-concepto, .inp-anio, .inp-importe { font-size: 9px !important; border: none !important; background: transparent !important; }
+      .inp-importe { width: 90px !important; }
+      .inp-anio    { width: 45px !important; }
+
+      /* ── Totales deuda ── */
+      .fila-total td { padding: 5px 8px !important; background: #1A1A2E !important; }
+      .lbl-total { font-size: 8.5px !important; color: white !important; }
+      .celda-total { font-size: 12px !important; font-weight: 700 !important; color: #ff5757 !important; }
+      .celda-total.sin-deuda { color: #4CAF50 !important; }
+
+      /* ── Totales liquidaciones ── */
+      .fila-total-liq td { padding: 5px 8px !important; background: var(--azul-medio) !important; }
+      .celda-total-liq { font-size: 12px !important; font-weight: 700 !important; color: white !important; }
+
+      /* ── Liquidaciones ── */
+      .bloque-liquidaciones { padding: 8px 10px 6px !important; margin-bottom: 4px !important; background: var(--celeste-suave) !important; }
+      .subtitulo-liq { font-size: 8px !important; margin-bottom: 3px !important; padding-bottom: 2px !important; }
+
+      /* ── Separador deuda ── */
+      .separador-deuda { font-size: 8px !important; padding: 4px 0 3px !important; margin-bottom: 4px !important; color: var(--acento) !important; }
+
+      /* ── Bloques 2-3 lado a lado en impresión ── */
+      .bloques-2-3 { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 8px !important; align-items: start !important; }
 
       /* ── Observaciones ── */
       .caja-obs {
-        min-height: 45px !important;
-        max-height: none !important;
-        overflow: visible !important;
-        padding: 10px 14px !important;
-        font-size: 10px !important;
-        line-height: 1.4 !important;
-        border-left-width: 4px !important;
-        border-left-color: var(--acento) !important;
+        min-height: 35px !important; max-height: none !important; overflow: visible !important;
+        padding: 7px 10px !important; font-size: 9px !important; line-height: 1.35 !important;
+        border-left-width: 3px !important; border-left-color: var(--acento) !important;
       }
 
-      /* ── Pie de página anclado al fondo ── */
-      .doc-footer {
-        margin-top: auto !important;
-        padding: 8px 20px !important;
-        font-size: 9px !important;
-      }
-      .footer-nombre { font-size: 9.5px !important; }
+      /* ── Pie ── */
+      .doc-footer { margin-top: auto !important; padding: 6px 16px !important; font-size: 8px !important; }
+      .footer-nombre { font-size: 8.5px !important; }
 
-      /* ── Campos editables: sin bordes ── */
-      .ce-excel, .ce-manual {
-        border-bottom: none !important;
-        background: none !important;
-        padding: 0 !important;
-      }
-      .ce-header {
-        border: none !important;
-        background: transparent !important;
-        padding: 0 !important;
-      }
+      /* ── Campos editables sin bordes ── */
+      .ce-excel, .ce-manual { border-bottom: none !important; background: none !important; padding: 0 !important; }
+      .ce-header { border: none !important; background: transparent !important; padding: 0 !important; }
       .ce-excel:empty::before, .ce-manual:empty::before,
       .ce-header:empty::before, .caja-obs:empty::before { display: none; }
-
-      /* ── Badges de estado ── */
-      .sel-estado { display: none !important; }
-      .badge-estado {
-        display: inline-block !important;
-        font-size: 9px !important;
-        padding: 2px 7px !important;
-        min-width: 0 !important;
-      }
 
       /* ── Saltos de página ── */
       .doc-header      { page-break-after: avoid; }
@@ -713,8 +406,9 @@
 <!-- ═══ DOCUMENTO ════════════════════════════════════ -->
 <div id="documento">
 
-  <!-- ENCABEZADO -->
   <div id="contenido-doc">
+
+  <!-- ENCABEZADO -->
   <div class="doc-header">
     <div class="header-logo-wrap">
       <img id="header-logo" src="logoez.png" alt="Logo">
@@ -761,84 +455,146 @@
   <!-- CUERPO -->
   <div class="doc-body">
 
-    <!-- ── 1. SITUACIÓN IMPOSITIVA ─────────────────── -->
+    <!-- ── BLOQUE 1: RESUMEN DEL PERÍODO ─────────────── -->
     <div class="seccion">
-      <div class="seccion-titulo">
-        <h2>Deuda Impositiva</h2>
-      </div>
-      <table class="tabla-rendicion">
+      <div class="seccion-titulo"><h2>Resumen del Período</h2></div>
+      <table class="tabla-resumen">
         <thead>
           <tr>
-            <th>Concepto</th>
-            <th style="width:80px">Año</th>
-            <th style="width:150px;text-align:right">Importe</th>
-            <th class="no-print" style="width:36px"></th>
+            <th style="text-align:left">Concepto</th>
+            <th>Neto</th>
+            <th>IVA</th>
+            <th>Total</th>
           </tr>
         </thead>
-        <tbody id="tbody-impositiva"></tbody>
-        <tfoot>
-          <tr class="fila-total">
-            <td colspan="2"><span class="lbl-total">Total Deuda Impositiva</span></td>
-            <td class="celda-total sin-deuda" id="total-impositiva">$ 0 — Sin deuda</td>
-            <td class="no-print"></td>
-          </tr>
-        </tfoot>
-      </table>
-      <button class="btn-agregar no-print" onclick="agregarFila('tbody-impositiva','total-impositiva')">+ Agregar fila</button>
-    </div>
-
-    <!-- ── 2. SITUACIÓN PREVISIONAL ────────────────── -->
-    <div class="seccion">
-      <div class="seccion-titulo">
-        <h2>Deuda Previsional</h2>
-      </div>
-      <table class="tabla-rendicion">
-        <thead>
+        <tbody>
           <tr>
-            <th>Concepto</th>
-            <th style="width:80px">Año</th>
-            <th style="width:150px;text-align:right">Importe</th>
-            <th class="no-print" style="width:36px"></th>
+            <td>Ventas</td>
+            <td><div class="celda-importe" style="justify-content:flex-end"><span class="prefijo-peso">$</span><input class="inp-resumen" id="ventas-neto"   type="text" placeholder="0" onfocus="onFocusResumen(this)" oninput="onInputResumen(this)" onblur="onBlurResumen(this)"></div></td>
+            <td><div class="celda-importe" style="justify-content:flex-end"><span class="prefijo-peso">$</span><input class="inp-resumen" id="ventas-iva"    type="text" placeholder="0" onfocus="onFocusResumen(this)" oninput="onInputResumen(this)" onblur="onBlurResumen(this)"></div></td>
+            <td class="celda-auto"><span id="ventas-total">—</span></td>
           </tr>
-        </thead>
-        <tbody id="tbody-previsional"></tbody>
-        <tfoot>
-          <tr class="fila-total">
-            <td colspan="2"><span class="lbl-total">Total Deuda Previsional</span></td>
-            <td class="celda-total sin-deuda" id="total-previsional">$ 0 — Sin deuda</td>
-            <td class="no-print"></td>
+          <tr>
+            <td>Compras</td>
+            <td><div class="celda-importe" style="justify-content:flex-end"><span class="prefijo-peso">$</span><input class="inp-resumen" id="compras-neto"  type="text" placeholder="0" onfocus="onFocusResumen(this)" oninput="onInputResumen(this)" onblur="onBlurResumen(this)"></div></td>
+            <td><div class="celda-importe" style="justify-content:flex-end"><span class="prefijo-peso">$</span><input class="inp-resumen" id="compras-iva"   type="text" placeholder="0" onfocus="onFocusResumen(this)" oninput="onInputResumen(this)" onblur="onBlurResumen(this)"></div></td>
+            <td class="celda-auto"><span id="compras-total">—</span></td>
           </tr>
-        </tfoot>
+          <tr class="fila-contrib">
+            <td>Contribución Marginal</td>
+            <td><span id="contrib-neto"  class="val-positivo">—</span></td>
+            <td><span id="contrib-iva"   class="val-positivo">—</span></td>
+            <td><span id="contrib-total" class="val-positivo">—</span></td>
+          </tr>
+        </tbody>
       </table>
-      <button class="btn-agregar no-print" onclick="agregarFila('tbody-previsional','total-previsional')">+ Agregar fila</button>
     </div>
 
-    <!-- ── 3. CUENTA CORRIENTE ─────────────────────── -->
-    <div class="seccion" style="margin-bottom:20px">
-      <div class="seccion-titulo">
-        <h2>Cuenta Corriente con el Estudio</h2>
-      </div>
-      <div class="grid-cuenta">
-        <div class="tarj-cuenta">
-          <div class="cuenta-lbl">Honorarios del Mes</div>
-          <div class="cuenta-monto neutro">
-            $ <span contenteditable="true" id="cc-honorarios" class="ce-manual" data-ph="0"></span>
-          </div>
-        </div>
-        <div class="tarj-cuenta" id="tarj-saldo">
-          <div class="cuenta-lbl">Saldo en Cuenta</div>
-          <div class="cuenta-monto" id="cc-saldo-monto">
-            $ <span contenteditable="true" id="cc-saldo" class="ce-manual" data-ph="0"></span>
-          </div>
-        </div>
-      </div>
-    </div>
+    <div class="bloques-2-3">
 
-    <!-- ── 4. OBSERVACIONES ────────────────────────── -->
+      <!-- ── BLOQUE 2: LIQUIDACIONES DEL PERÍODO ──────── -->
+      <div class="bloque-liquidaciones">
+        <div class="seccion-titulo"><h2>Liquidaciones del Período</h2></div>
+
+        <div class="subtitulo-liq">Impositivo del Período</div>
+        <table class="tabla-rendicion">
+          <thead>
+            <tr>
+              <th>Concepto</th>
+              <th style="width:70px">Año</th>
+              <th style="width:130px;text-align:right">Importe</th>
+              <th class="no-print" style="width:32px"></th>
+            </tr>
+          </thead>
+          <tbody id="tbody-liq-imp"></tbody>
+          <tfoot>
+            <tr class="fila-total-liq">
+              <td colspan="2"><span class="lbl-total">Total Impositivo del Período</span></td>
+              <td class="celda-total-liq" id="total-liq-imp">$ 0</td>
+              <td class="no-print"></td>
+            </tr>
+          </tfoot>
+        </table>
+        <button class="btn-agregar no-print" onclick="agregarFilaLiq('tbody-liq-imp','total-liq-imp')">+ Agregar fila</button>
+
+        <div class="subtitulo-liq" style="margin-top:14px">Previsional del Período</div>
+        <table class="tabla-rendicion">
+          <thead>
+            <tr>
+              <th>Concepto</th>
+              <th style="width:70px">Año</th>
+              <th style="width:130px;text-align:right">Importe</th>
+              <th class="no-print" style="width:32px"></th>
+            </tr>
+          </thead>
+          <tbody id="tbody-liq-prev"></tbody>
+          <tfoot>
+            <tr class="fila-total-liq">
+              <td colspan="2"><span class="lbl-total">Total Previsional del Período</span></td>
+              <td class="celda-total-liq" id="total-liq-prev">$ 0</td>
+              <td class="no-print"></td>
+            </tr>
+          </tfoot>
+        </table>
+        <button class="btn-agregar no-print" onclick="agregarFilaLiq('tbody-liq-prev','total-liq-prev')">+ Agregar fila</button>
+      </div>
+
+      <!-- ── BLOQUE 3: DEUDA ACUMULADA ─────────────────── -->
+      <div>
+        <div class="separador-deuda">Deuda Acumulada Impaga</div>
+
+        <div class="seccion">
+          <div class="seccion-titulo"><h2>Deuda Impositiva</h2></div>
+          <table class="tabla-rendicion">
+            <thead>
+              <tr>
+                <th>Concepto</th>
+                <th style="width:70px">Año</th>
+                <th style="width:130px;text-align:right">Importe</th>
+                <th class="no-print" style="width:32px"></th>
+              </tr>
+            </thead>
+            <tbody id="tbody-impositiva"></tbody>
+            <tfoot>
+              <tr class="fila-total">
+                <td colspan="2"><span class="lbl-total">Total Deuda Impositiva</span></td>
+                <td class="celda-total sin-deuda" id="total-impositiva">$ 0 — Sin deuda</td>
+                <td class="no-print"></td>
+              </tr>
+            </tfoot>
+          </table>
+          <button class="btn-agregar no-print" onclick="agregarFila('tbody-impositiva','total-impositiva')">+ Agregar fila</button>
+        </div>
+
+        <div class="seccion">
+          <div class="seccion-titulo"><h2>Deuda Previsional</h2></div>
+          <table class="tabla-rendicion">
+            <thead>
+              <tr>
+                <th>Concepto</th>
+                <th style="width:70px">Año</th>
+                <th style="width:130px;text-align:right">Importe</th>
+                <th class="no-print" style="width:32px"></th>
+              </tr>
+            </thead>
+            <tbody id="tbody-previsional"></tbody>
+            <tfoot>
+              <tr class="fila-total">
+                <td colspan="2"><span class="lbl-total">Total Deuda Previsional</span></td>
+                <td class="celda-total sin-deuda" id="total-previsional">$ 0 — Sin deuda</td>
+                <td class="no-print"></td>
+              </tr>
+            </tfoot>
+          </table>
+          <button class="btn-agregar no-print" onclick="agregarFila('tbody-previsional','total-previsional')">+ Agregar fila</button>
+        </div>
+      </div>
+
+    </div><!-- /bloques-2-3 -->
+
+    <!-- ── BLOQUE 4: OBSERVACIONES ────────────────────── -->
     <div class="seccion">
-      <div class="seccion-titulo">
-        <h2>Observaciones y Recomendaciones</h2>
-      </div>
+      <div class="seccion-titulo"><h2>Observaciones y Recomendaciones</h2></div>
       <div contenteditable="true" class="caja-obs" id="campo-obs"
            data-ph="Ingresá las observaciones y recomendaciones del período..."></div>
     </div>
@@ -859,7 +615,7 @@
 
   </div><!-- /contenido-doc -->
 
-  <!-- BIENVENIDA (antes de cargar Excel) -->
+  <!-- BIENVENIDA -->
   <div id="bienvenida">
     <h3>Sistema de Diagnóstico Mensual</h3>
     <p>Cargá el archivo <strong>Tablero_EZ.xlsx</strong> con el botón de arriba para comenzar a generar diagnósticos.</p>
@@ -886,9 +642,7 @@ let clientes = [];
   document.getElementById('hdr-nombre').textContent    = ESTUDIO.nombre;
   document.getElementById('hdr-direccion').textContent = ESTUDIO.direccion;
   document.getElementById('hdr-contacto').innerHTML =
-    ESTUDIO.telefono +
-    '<span class="sep-contacto">·</span>' +
-    ESTUDIO.email;
+    ESTUDIO.telefono + '<span class="sep-contacto">·</span>' + ESTUDIO.email;
   document.getElementById('ftr-nombre').textContent   = ESTUDIO.nombre;
   document.getElementById('ftr-contacto').textContent =
     ESTUDIO.direccion + ' · ' + ESTUDIO.telefono + ' · ' + ESTUDIO.email;
@@ -908,10 +662,6 @@ let clientes = [];
   document.getElementById('ftr-fecha').textContent  = fechaHoy;
 
   initTablas();
-
-  ['cc-honorarios', 'cc-saldo'].forEach(function(id) {
-    document.getElementById(id).addEventListener('input', function() { formatearCE(this); });
-  });
 })();
 
 function pad(n) { return String(n).padStart(2, '0'); }
@@ -924,12 +674,9 @@ document.getElementById('file-input').addEventListener('change', function(e) {
   reader.onload = function(ev) {
     try {
       const wb = XLSX.read(ev.target.result, { type: 'binary', cellDates: true });
-
-      // Buscar la hoja que contenga "Clientes" en el nombre (tolerante al emoji)
       const sheetName = wb.SheetNames.find(function(n) {
         return n.toLowerCase().includes('clientes');
       }) || wb.SheetNames[0];
-
       const ws = wb.Sheets[sheetName];
 
       // Fila 1 (índice 0): título general — ignorar
@@ -941,11 +688,10 @@ document.getElementById('file-input').addEventListener('change', function(e) {
       const col = {};
       headers.forEach(function(h, i) { col[String(h).trim()] = i; });
 
-      const idxRS    = col['Razón Social']        ?? col['Razon Social']     ?? 0;
+      const idxRS    = col['Razón Social']        ?? col['Razon Social']       ?? 0;
       const idxCUIT  = col['CUIT']                ?? 1;
-      const idxCond  = col['Condicion Fiscal']    ?? col['Condición Fiscal'] ?? 2;
+      const idxCond  = col['Condicion Fiscal']    ?? col['Condición Fiscal']   ?? 2;
       const idxCierr = col['Cierre de Ejercicio'] ?? 3;
-      const idxCC    = col['Cuenta Corriente']    ?? col['Saldo']            ?? -1;
       const idxObs   = col['Observaciones']       ?? -1;
       const idxDiag  = col['Diagnóstico Fiscal']  ?? col['Diagnostico Fiscal'] ?? -1;
 
@@ -957,9 +703,8 @@ document.getElementById('file-input').addEventListener('change', function(e) {
             cuit:               str(row[idxCUIT]),
             condicion_fiscal:   str(row[idxCond]),
             cierre_ejercicio:   str(row[idxCierr]),
-            cuenta_corriente:   idxCC   >= 0 ? row[idxCC]       : '',
-            observaciones:      idxObs  >= 0 ? str(row[idxObs]) : '',
-            diagnostico_fiscal: idxDiag >= 0 ? str(row[idxDiag]): ''
+            observaciones:      idxObs  >= 0 ? str(row[idxObs])  : '',
+            diagnostico_fiscal: idxDiag >= 0 ? str(row[idxDiag]) : ''
           };
         });
 
@@ -1000,106 +745,46 @@ document.getElementById('select-cliente').addEventListener('change', function() 
 /* ── Helpers ───────────────────────────────────────── */
 function str(v) { return (v === null || v === undefined) ? '' : String(v).trim(); }
 
-function moneda(v) {
-  const n = parseFloat(str(v).replace(/[^0-9.\-]/g, ''));
-  if (isNaN(n)) return str(v);
-  return n.toLocaleString('es-AR', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
-}
-
 function setChip(id, v) {
   document.getElementById(id).textContent = str(v) || '—';
 }
 
-function setCE(id, v) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  const val = str(v);
-  el.textContent = val;
-  el.className   = val ? 'ce-excel' : 'ce-manual';
-}
-
 /* ── Carga de cliente ──────────────────────────────── */
 function cargarCliente(c) {
-  // Chips de encabezado
   setChip('chip-rs',    c.razon_social);
   setChip('chip-cuit',  c.cuit);
   setChip('chip-cond',  c.condicion_fiscal);
   setChip('chip-cierre', formatCierre(c.cierre_ejercicio) || c.cierre_ejercicio);
 
-  // Reiniciar tablas de rendición con filas en blanco
   resetTablas();
 
-  // Cuenta Corriente (col J)
-  const honEl = document.getElementById('cc-honorarios');
-  honEl.textContent = ''; honEl.className = 'ce-manual';
-
-  const saldo    = parseFloat(str(c.cuenta_corriente).replace(/[^0-9.\-]/g, '')) || 0;
-  const saldoStr = moneda(c.cuenta_corriente);
-  const saldoEl  = document.getElementById('cc-saldo');
-  saldoEl.textContent = saldoStr || '0';
-  saldoEl.className   = saldoStr ? 'ce-excel' : 'ce-manual';
-
-  const montoEl = document.getElementById('cc-saldo-monto');
-  const tarjEl  = document.getElementById('tarj-saldo');
-  tarjEl.className  = 'tarj-cuenta';
-  montoEl.className = 'cuenta-monto';
-
-  if (saldo < 0) {
-    tarjEl.classList.add('deuda-bg');
-    montoEl.classList.add('deuda');
-  } else if (saldo > 0) {
-    tarjEl.classList.add('favor-bg');
-    montoEl.classList.add('favor');
-  } else {
-    montoEl.classList.add('neutro');
-  }
-
-  // Observaciones: combinar "Diagnóstico Fiscal" (col I) + "Observaciones" (col L)
+  // Observaciones
   const partes = [c.diagnostico_fiscal, c.observaciones].filter(Boolean);
   document.getElementById('campo-obs').textContent = partes.join('\n\n');
 }
 
-/* ── Tablas editables ──────────────────────────────── */
+/* ── Formateo de importes ──────────────────────────── */
 function parsearImporte(s) {
   return parseFloat(String(s).replace(/\./g, '').replace(',', '.')) || 0;
+}
+
+function formatarInputImporte(inp) {
+  const clean = inp.value.replace(/[^\d,]/g, '');
+  const parts = clean.split(',');
+  const n = parseInt(parts[0] || '', 10);
+  if (clean === '')           inp.value = '';
+  else if (parts.length === 1) inp.value = isNaN(n) ? '' : n.toLocaleString('es-AR');
+  else inp.value = (isNaN(n) ? '0' : n.toLocaleString('es-AR')) + ',' + parts.slice(1).join('');
 }
 
 function onFocusImporte(inp) {
   const n = parsearImporte(inp.value);
   inp.value = (inp.value.trim() === '' || n === 0) ? '' : String(n).replace('.', ',');
 }
-
 function onInputImporte(inp, tbodyId, totalId) {
-  const clean = inp.value.replace(/[^\d,]/g, '');
-  const parts = clean.split(',');
-  const n = parseInt(parts[0] || '', 10);
-  if (clean === '') {
-    inp.value = '';
-  } else if (parts.length === 1) {
-    inp.value = isNaN(n) ? '' : n.toLocaleString('es-AR');
-  } else {
-    inp.value = (isNaN(n) ? '0' : n.toLocaleString('es-AR')) + ',' + parts.slice(1).join('');
-  }
+  formatarInputImporte(inp);
   calcularTotal(tbodyId, totalId);
 }
-
-function formatearCE(el) {
-  const raw = el.textContent.replace(/[^\d,]/g, '');
-  if (!raw) return;
-  const parts = raw.split(',');
-  const n = parseInt(parts[0] || '', 10);
-  const formatted = (isNaN(n) ? '' : n.toLocaleString('es-AR')) +
-                    (parts.length > 1 ? ',' + parts[1] : '');
-  if (!formatted || el.textContent === formatted) return;
-  el.textContent = formatted;
-  const range = document.createRange();
-  const sel = window.getSelection();
-  range.selectNodeContents(el);
-  range.collapse(false);
-  sel.removeAllRanges();
-  sel.addRange(range);
-}
-
 function onBlurImporte(inp, tbodyId, totalId) {
   const n = parsearImporte(inp.value);
   inp.value = (inp.value.trim() === '' || n === 0) ? '' :
@@ -1107,12 +792,67 @@ function onBlurImporte(inp, tbodyId, totalId) {
   calcularTotal(tbodyId, totalId);
 }
 
+function onInputLiq(inp, tbodyId, totalId) {
+  formatarInputImporte(inp);
+  calcularTotalLiq(tbodyId, totalId);
+}
+function onBlurLiq(inp, tbodyId, totalId) {
+  const n = parsearImporte(inp.value);
+  inp.value = (inp.value.trim() === '' || n === 0) ? '' :
+    n.toLocaleString('es-AR', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+  calcularTotalLiq(tbodyId, totalId);
+}
+
+/* ── Resumen del Período ───────────────────────────── */
+function onFocusResumen(inp) {
+  const n = parsearImporte(inp.value);
+  inp.value = (inp.value.trim() === '' || n === 0) ? '' : String(n).replace('.', ',');
+}
+function onInputResumen(inp) {
+  formatarInputImporte(inp);
+  calcularResumen();
+}
+function onBlurResumen(inp) {
+  const n = parsearImporte(inp.value);
+  inp.value = (inp.value.trim() === '' || n === 0) ? '' :
+    n.toLocaleString('es-AR', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+  calcularResumen();
+}
+
+function calcularResumen() {
+  const vN = parsearImporte(document.getElementById('ventas-neto').value);
+  const vI = parsearImporte(document.getElementById('ventas-iva').value);
+  const cN = parsearImporte(document.getElementById('compras-neto').value);
+  const cI = parsearImporte(document.getElementById('compras-iva').value);
+
+  const vT = vN + vI;
+  const cT = cN + cI;
+  const mN = vN - cN;
+  const mI = vI - cI;
+  const mT = vT - cT;
+
+  function fmt(n) {
+    return '$ ' + Math.abs(n).toLocaleString('es-AR', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+  }
+
+  document.getElementById('ventas-total').textContent  = fmt(vT);
+  document.getElementById('compras-total').textContent = fmt(cT);
+
+  const cls = mT >= 0 ? 'val-positivo' : 'val-negativo';
+  [['contrib-neto', mN], ['contrib-iva', mI], ['contrib-total', mT]].forEach(function(pair) {
+    const el = document.getElementById(pair[0]);
+    el.textContent = fmt(pair[1]);
+    el.className = cls;
+  });
+}
+
+/* ── Tablas de deuda ───────────────────────────────── */
 function crearFila(tbodyId, totalId) {
-  const anioActual = new Date().getFullYear();
+  const anio = new Date().getFullYear();
   const tr = document.createElement('tr');
   tr.innerHTML =
     '<td><input class="inp-concepto" type="text" placeholder="Concepto..."></td>' +
-    '<td><input class="inp-anio" type="text" placeholder="' + anioActual + '"></td>' +
+    '<td><input class="inp-anio" type="text" placeholder="' + anio + '"></td>' +
     '<td><div class="celda-importe"><span class="prefijo-peso">$</span>' +
       '<input class="inp-importe" type="text" placeholder="0" ' +
       'onfocus="onFocusImporte(this)" ' +
@@ -1128,12 +868,10 @@ function crearFila(tbodyId, totalId) {
 function agregarFila(tbodyId, totalId) {
   document.getElementById(tbodyId).appendChild(crearFila(tbodyId, totalId));
 }
-
 function eliminarFila(btn, tbodyId, totalId) {
   btn.closest('tr').remove();
   calcularTotal(tbodyId, totalId);
 }
-
 function calcularTotal(tbodyId, totalId) {
   const totalEl = document.getElementById(totalId);
   let suma = 0;
@@ -1142,37 +880,88 @@ function calcularTotal(tbodyId, totalId) {
   });
   if (suma === 0) {
     totalEl.textContent = '$ 0 — Sin deuda';
-    totalEl.className = 'celda-total sin-deuda';
+    totalEl.className   = 'celda-total sin-deuda';
   } else {
     totalEl.textContent = '$ ' + Math.abs(suma).toLocaleString('es-AR', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
-    totalEl.className = 'celda-total con-deuda';
+    totalEl.className   = 'celda-total con-deuda';
   }
 }
 
+/* ── Tablas de liquidaciones ───────────────────────── */
+function crearFilaLiq(tbodyId, totalId) {
+  const anio = new Date().getFullYear();
+  const tr = document.createElement('tr');
+  tr.innerHTML =
+    '<td><input class="inp-concepto" type="text" placeholder="Concepto..."></td>' +
+    '<td><input class="inp-anio" type="text" placeholder="' + anio + '"></td>' +
+    '<td><div class="celda-importe"><span class="prefijo-peso">$</span>' +
+      '<input class="inp-importe" type="text" placeholder="0" ' +
+      'onfocus="onFocusImporte(this)" ' +
+      'oninput="onInputLiq(this,\'' + tbodyId + '\',\'' + totalId + '\')" ' +
+      'onblur="onBlurLiq(this,\'' + tbodyId + '\',\'' + totalId + '\')">' +
+    '</div></td>' +
+    '<td class="no-print"><button class="btn-eliminar" ' +
+      'onclick="eliminarFilaLiq(this,\'' + tbodyId + '\',\'' + totalId + '\')" ' +
+      'title="Eliminar fila">×</button></td>';
+  return tr;
+}
+
+function agregarFilaLiq(tbodyId, totalId) {
+  document.getElementById(tbodyId).appendChild(crearFilaLiq(tbodyId, totalId));
+}
+function eliminarFilaLiq(btn, tbodyId, totalId) {
+  btn.closest('tr').remove();
+  calcularTotalLiq(tbodyId, totalId);
+}
+function calcularTotalLiq(tbodyId, totalId) {
+  const totalEl = document.getElementById(totalId);
+  let suma = 0;
+  document.getElementById(tbodyId).querySelectorAll('.inp-importe').forEach(function(inp) {
+    suma += parsearImporte(inp.value);
+  });
+  totalEl.textContent = suma === 0 ? '$ 0' :
+    '$ ' + Math.abs(suma).toLocaleString('es-AR', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+  totalEl.className = 'celda-total-liq';
+}
+
+/* ── Init / Reset tablas ───────────────────────────── */
 function initTablas() {
-  ['IVA', 'Ingresos Brutos (IIBB)', 'Ganancias — Anticipo', 'Ganancias — DDJJ Anual'].forEach(function(concepto) {
-    const tr = crearFila('tbody-impositiva', 'total-impositiva');
-    tr.querySelector('.inp-concepto').value = concepto;
+  ['IVA', 'Ingresos Brutos (IIBB)', 'Ganancias — Anticipo', 'Ganancias — DDJJ Anual'].forEach(function(c) {
+    var tr = crearFila('tbody-impositiva', 'total-impositiva');
+    tr.querySelector('.inp-concepto').value = c;
     document.getElementById('tbody-impositiva').appendChild(tr);
   });
-  ['Monotributo / F.931', 'Cargas Sociales', 'ART'].forEach(function(concepto) {
-    const tr = crearFila('tbody-previsional', 'total-previsional');
-    tr.querySelector('.inp-concepto').value = concepto;
+  ['Monotributo / F.931', 'Cargas Sociales', 'ART'].forEach(function(c) {
+    var tr = crearFila('tbody-previsional', 'total-previsional');
+    tr.querySelector('.inp-concepto').value = c;
     document.getElementById('tbody-previsional').appendChild(tr);
   });
+  for (var i = 0; i < 2; i++) {
+    document.getElementById('tbody-liq-imp').appendChild(crearFilaLiq('tbody-liq-imp',  'total-liq-imp'));
+    document.getElementById('tbody-liq-prev').appendChild(crearFilaLiq('tbody-liq-prev', 'total-liq-prev'));
+  }
 }
 
 function resetTablas() {
-  document.getElementById('tbody-impositiva').innerHTML = '';
-  document.getElementById('tbody-previsional').innerHTML = '';
+  ['tbody-impositiva','tbody-previsional','tbody-liq-imp','tbody-liq-prev'].forEach(function(id) {
+    document.getElementById(id).innerHTML = '';
+  });
   var ti = document.getElementById('total-impositiva');
   var tp = document.getElementById('total-previsional');
   ti.textContent = '$ 0 — Sin deuda'; ti.className = 'celda-total sin-deuda';
   tp.textContent = '$ 0 — Sin deuda'; tp.className = 'celda-total sin-deuda';
+  document.getElementById('total-liq-imp').textContent  = '$ 0';
+  document.getElementById('total-liq-prev').textContent = '$ 0';
+  document.getElementById('total-liq-imp').className    = 'celda-total-liq';
+  document.getElementById('total-liq-prev').className   = 'celda-total-liq';
+  ['ventas-neto','ventas-iva','compras-neto','compras-iva'].forEach(function(id) {
+    document.getElementById(id).value = '';
+  });
+  calcularResumen();
   initTablas();
 }
 
-/* ── Formateo de fecha de cierre ──────────────────── */
+/* ── Formateo fecha de cierre ──────────────────────── */
 function formatCierre(v) {
   if (!v) return '';
   const d = (v instanceof Date) ? v : new Date(v);
@@ -1185,14 +974,8 @@ function escHtml(s) {
   return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-/* ── Print ─────────────────────────────────────────── */
-window.addEventListener('beforeprint', function() {
-  // noop — tablas de rendición se imprimen tal cual
-});
-
-window.addEventListener('afterprint', function() {
-  // noop
-});
+window.addEventListener('beforeprint', function() {});
+window.addEventListener('afterprint',  function() {});
 </script>
 </body>
 </html>
